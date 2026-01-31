@@ -10,6 +10,5 @@
     "editor.defaultFormatter": "eeyore.yapf"
   },
 
-
-  "cSpell.words": ["customtkinter", "yapf"]
+  "cSpell.words": ["customtkinter", "tkinter", "yapf"]
 }

@@ -16,6 +16,7 @@
       packages = with pkgs; [
         uv
         python313
+        python313Packages.tkinter
       ];
 
       UV_PYTHON_DOWNLOADS = "never";
