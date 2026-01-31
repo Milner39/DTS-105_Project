@@ -1,8 +1,15 @@
 {
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
 
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
   "prettier.enable": true,
   "prettier.requireConfig": true,
-  "prettier.resolveGlobalModules": false
+  "prettier.resolveGlobalModules": false,
+
+  "[python]": {
+    "editor.defaultFormatter": "eeyore.yapf"
+  },
+
+
+  "cSpell.words": ["customtkinter", "yapf"]
 }

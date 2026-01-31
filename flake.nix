@@ -15,7 +15,7 @@
     devShells.${system}.default = pkgs.mkShell {
       packages = with pkgs; [
         uv
-        python315
+        python313
       ];
 
       UV_PYTHON_DOWNLOADS = "never";
