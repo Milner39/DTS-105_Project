@@ -1,0 +1,24 @@
+name: Branch progression policy
+
+on:
+  pull_request:
+
+jobs:
+  enforce:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Enforce branch progression
+        run: |
+          SRC="${{ github.head_ref }}"
+          DST="${{ github.base_ref }}"
+
+          fail() {
+            echo "Invalid merge: $SRC -> $DST"
+            exit 1
+          }
+
+          if [[ "$SRC" == dev/* && "$DST" != issue/* ]]; then fail; fi
+          if [[ "$SRC" == issue/* && "$DST" != testing/* ]]; then fail; fi
+          if [[ "$SRC" == testing/* && "$DST" != integration && "$DST" != issue/* ]]; then fail; fi
+          if [[ "$SRC" == integration && "$DST" != staging ]]; then fail; fi
+          if [[ "$SRC" == staging && "$DST" != production && "$DST" != integration ]]; then fail; fi
