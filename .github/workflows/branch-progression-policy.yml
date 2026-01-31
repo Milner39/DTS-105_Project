@@ -7,7 +7,7 @@ jobs:
   enforce:
     runs-on: ubuntu-latest
     steps:
-      - name: Enforce branch progression
+      - name: Enforce Branch Progression
         run: |
           SRC="${{ github.head_ref }}"
           DST="${{ github.base_ref }}"
