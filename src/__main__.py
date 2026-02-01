@@ -15,7 +15,9 @@ def button_function():
 
 
 # Use CTkButton instead of tkinter Button
-button = ctk.CTkButton(master=app, text="CTkButton", command=button_function)
-button.place(relx=0.5, rely=0.5, anchor=ctk.CENTER)
+button = ctk.CTkButton(
+  master = app, text = "CTkButton", command = button_function
+)
+button.place(relx = 0.5, rely = 0.5, anchor = ctk.CENTER)
 
 app.mainloop()

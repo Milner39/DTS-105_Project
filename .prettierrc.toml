@@ -1,0 +1,19 @@
+# This file configures the Prettier formatter to ensure consistent styling
+# across the codebase, although YAPF is used to format python files
+#
+#
+# Line length
+printWidth = 80
+#
+# Indentation
+tabWidth = 2
+useTabs = false
+#
+# Misc Styling
+semi = true
+singleQuote = false
+trailingComma = "all"
+bracketSpacing = true
+bracketSameLine = false
+arrowParens = "always"
+endOfLine = "lf"
