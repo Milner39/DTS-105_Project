@@ -1,0 +1,10 @@
+{
+  "recommendations": [
+    "streetsidesoftware.code-spell-checker",
+    "esbenp.prettier-vscode",
+    "github.vscode-github-actions",
+    "bbenoist.nix",
+    "ms-python.python",
+    "eeyore.yapf"
+  ]
+}
