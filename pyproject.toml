@@ -1,0 +1,38 @@
+[project]
+name = "DTS-105"
+version = "0.0.1"
+requires-python = "==3.13.*"
+dependencies = [
+  # Add with `uv add <package-name>`
+  "customtkinter>=5.2.2",
+  "yapf>=0.43.0",
+]
+
+[tool.yapf]
+based_on_style = "pep8"
+#
+# Line length
+column_limit = 80
+#
+# Indentation
+indent_width = 2
+continuation_indent_width = 2
+use_tabs = false
+#
+# Brackets & wrapping
+split_before_named_assigns = false
+split_before_expression_after_opening_paren = true
+split_before_first_argument = true
+dedent_closing_brackets = true
+#
+# Spacing
+spaces_around_default_or_named_assign = true
+space_inside_brackets = false
+#
+# Trailing commas
+allow_split_before_default_or_named_assigns = true
+split_arguments_when_comma_terminated = true
+#
+# Misc behaviour
+coalesce_brackets = true
+join_multiple_lines = false
