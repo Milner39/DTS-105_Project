@@ -38,12 +38,19 @@ class Gui:
     app.grid_columnconfigure(1, weight=1)
     app.grid_rowconfigure(0, weight=1)
 
+
     # Sidebar frame (fixed width)
-    sidebar = ctk.CTkFrame(app, width=60, corner_radius=0)
+    SIDEBAR_WIDTH = 48
+    sidebar = ctk.CTkFrame(app, width=SIDEBAR_WIDTH, corner_radius=0, fg_color=("gray95", "gray15"))
     sidebar.grid(row=0, column=0, sticky="ns")
+    sidebar.grid_columnconfigure(0, weight=1)
     sidebar.grid_propagate(False)  # prevents resizing
 
-    btn = ctk.CTkButton(sidebar, image=_AssetUtils.ctk_icon("house-line"), text="")
+    btn = ctk.CTkButton(sidebar, height=SIDEBAR_WIDTH, image=_AssetUtils.ctk_icon("house-line"), text="", corner_radius=0)
+    btn.grid(row=0, column=0, sticky="ew")
+
+    btn = ctk.CTkButton(sidebar, height=SIDEBAR_WIDTH, image=_AssetUtils.ctk_icon("notepad"), text="", corner_radius=0)
+    btn.grid(row=1, column=0, sticky="ew")
 
     # Main content area
     main = ctk.CTkFrame(app)
