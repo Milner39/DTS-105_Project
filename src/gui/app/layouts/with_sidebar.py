@@ -1,7 +1,6 @@
 import customtkinter as _ctk
 from .. import type_defs as GuiTypes
 from ..components.SidebarNav import SidebarNav__Component as SidebarNav
-from ...assets import AssetUtils
 
 
 
@@ -9,7 +8,7 @@ class WithSidebar__Layout(_ctk.CTkFrame):
   """Sidebar and content layout"""
 
   _sidebar_area:    _ctk.CTkFrame | None = None
-  _active_sidebar:  _ctk.CTkFrame | None = None
+  _active_sidebar:  SidebarNav    | None = None
   _content_area:    _ctk.CTkFrame | None = None
   _active_content:  _ctk.CTkFrame | None = None
 
@@ -31,8 +30,6 @@ class WithSidebar__Layout(_ctk.CTkFrame):
 
     active_sidebar = SidebarNav(sidebar_area)
     active_sidebar.grid(row=0, column=0, sticky="ns")
-    active_sidebar.add_button(image=AssetUtils.ctk_icon("house-line"))
-    active_sidebar.add_button(image=AssetUtils.ctk_icon("notepad"))
     self._active_sidebar = active_sidebar
 
 

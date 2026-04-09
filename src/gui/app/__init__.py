@@ -48,6 +48,8 @@ class Gui():
 
     root = _Root__layout(app)
     with_sidebar = root.set_layout(_WithSidebar__layout)
+    with_sidebar._active_sidebar.add_button(image=_AssetUtils.ctk_icon("house-line"))
+    with_sidebar._active_sidebar.add_button(image=_AssetUtils.ctk_icon("notepad"))
     with_sidebar.set_content(_Dashboard__Page)
 
     __class__.app.mainloop()
