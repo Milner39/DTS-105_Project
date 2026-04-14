@@ -20,6 +20,11 @@
     // and offers suggested replacements if we spell them wrong
     "customtkinter",
     "tkinter",
-    "yapf"
+    "yapf",
+    "cairosvg",
+    "padx",
+    "relx",
+    "rely",
+    "svgs"
   ]
 }

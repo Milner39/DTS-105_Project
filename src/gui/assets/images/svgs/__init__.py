@@ -13,27 +13,23 @@ class SVGUtils:
 
 
 
-  @staticmethod
-  def prepare_icons(size=64):
+  @classmethod
+  def prepare_icons(cls, size=64):
     """
     | Convert svg files into png files.
 
     | Only runs for files that are missing or outdated.
     """
 
-    SVG_DIR = __class__.SVG_DIR
-    PNG_DIR = __class__.PNG_DIR
+    _os.makedirs(cls.PNG_DIR, exist_ok=True)
 
-
-    _os.makedirs(PNG_DIR, exist_ok=True)
-
-    for file in _os.listdir(SVG_DIR):
+    for file in _os.listdir(cls.SVG_DIR):
       # Skip non-svgs
       if not file.endswith(".svg"):
         continue
 
-      svg_path = _os.path.join(SVG_DIR, file)
-      png_path = _os.path.join(PNG_DIR, file.replace(".svg", ".png"))
+      svg_path = _os.path.join(cls.SVG_DIR, file)
+      png_path = _os.path.join(cls.PNG_DIR, file.replace(".svg", ".png"))
 
       # Only convert if missing or outdated
       if (
@@ -49,11 +45,11 @@ class SVGUtils:
 
 
 
-  @staticmethod
-  def get_icon(name: str) -> _Image.Image:
+  @classmethod
+  def get_icon(cls, name: str) -> _Image.Image:
     """Search for an icon of the given name and return it if found"""
 
-    PNG_DIR = __class__.PNG_DIR
+    PNG_DIR = cls.PNG_DIR
 
     png_path = _os.path.join(PNG_DIR, f"{name}.png")
 

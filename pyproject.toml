@@ -4,7 +4,9 @@ version = "0.0.1"
 requires-python = "==3.13.*"
 dependencies = [
   # Add with `uv add <package-name>`
+  "cairosvg>=2.9.0",
   "customtkinter>=5.2.2",
+  "pillow>=12.2.0",
   "yapf>=0.43.0",
 ]
 

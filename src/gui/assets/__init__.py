@@ -22,16 +22,16 @@ class AssetUtils:
 
 
 
-  @staticmethod
-  def ctk_icon(name: str):
+  @classmethod
+  def ctk_icon(cls, name: str):
     """Return a customtkinter image of the given icon"""
 
-    loaded_icons = __class__.loaded["icons"]
+    loaded_icons = cls.loaded["icons"]
 
     # Check if icon has already been loaded
     if (name in loaded_icons and loaded_icons[name]): return loaded_icons[name]
 
     icon_file = _SVGUtils.get_icon(name)
     ctk_icon = _ctk.CTkImage(light_image=icon_file, dark_image=icon_file)
-    __class__.loaded["icons"][name] = ctk_icon
+    cls.loaded["icons"][name] = ctk_icon
     return ctk_icon
