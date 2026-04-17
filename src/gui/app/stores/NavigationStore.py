@@ -1,4 +1,4 @@
-from .. import Store
+from . import Store
 from dataclasses import dataclass, field
 
 

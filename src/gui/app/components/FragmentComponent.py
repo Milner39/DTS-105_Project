@@ -1,10 +1,10 @@
 from typing import Unpack
-from ... import type_defs as GuiTypes
-import customtkinter as _ctk
+from .. import type_defs as GuiTypes
+import customtkinter as ctk
 
 
 
-class Fragment(_ctk.CTkFrame):
+class FragmentComponent(ctk.CTkFrame):
   def __init__(
     self,
     master: GuiTypes.CTkMasterT,

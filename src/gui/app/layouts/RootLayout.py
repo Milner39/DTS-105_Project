@@ -1,9 +1,9 @@
-from ..components.widgets.Fragment import Fragment
+from ..components.FragmentComponent import FragmentComponent
 from .. import type_defs as GuiTypes
 
 
 
-class Root__Layout(Fragment):
+class RootLayout(FragmentComponent):
   """Top-level layout container"""
 
   def __init__(self, master: GuiTypes.CTkMasterT):

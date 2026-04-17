@@ -1,13 +1,13 @@
-import customtkinter as _ctk
-from .config import Config as _Config
-from .layouts.root import Root__Layout as _Root__layout
-from .layouts.with_sidebar import WithSidebar__Layout as _WithSidebar__layout
-from ..assets import AssetUtils as _AssetUtils
-from .stores.navigation import navigation_store as _navigation_store
+import customtkinter as ctk
+from .config import Config
+from .layouts.RootLayout import RootLayout
+from .layouts.WithSidebarLayout import WithSidebarLayout
+from ..assets import AssetUtils as AssetUtils
+from .stores.NavigationStore import navigation_store as navigation_store
 
 
 
-class App(_ctk.CTk):
+class App(ctk.CTk):
   def __init__(self):
     super().__init__()
 
@@ -25,7 +25,7 @@ class Gui():
     execution, e.g: SVGs are only converted into PNGs if the PNG file does not already exist or is outdated.
     """
 
-    _AssetUtils.prepare_assets()
+    AssetUtils.prepare_assets()
 
 
   @classmethod
@@ -33,7 +33,7 @@ class Gui():
     """Start the GUI"""
 
     app = App()
-    _Config.apply_config(app)
+    Config.apply_config(app)
 
     # Run pre-requisites (prepare assets, etc)
     cls.prepare()
@@ -42,17 +42,17 @@ class Gui():
     app.grid_rowconfigure(0, weight=1)
     app.grid_columnconfigure(0, weight=1)
 
-    root = _Root__layout(app)
-    with_sidebar = root.set_layout(_WithSidebar__layout)
+    root = RootLayout(app)
+    with_sidebar = root.set_layout(WithSidebarLayout)
     with_sidebar.active_sidebar.add_button(
-      image=_AssetUtils.ctk_icon("house-line"),
-      command=lambda: _navigation_store.navigate("dashboard")
+      image=AssetUtils.ctk_icon("house-line"),
+      command=lambda: navigation_store.navigate("dashboard")
     )
     with_sidebar.active_sidebar.add_button(
-      image=_AssetUtils.ctk_icon("notepad"),
-      command=lambda: _navigation_store.navigate("new-log")
+      image=AssetUtils.ctk_icon("notepad"),
+      command=lambda: navigation_store.navigate("new-log")
     )
 
-    _navigation_store.navigate("dashboard")
+    navigation_store.navigate("dashboard")
 
     app.mainloop()

@@ -1,6 +1,6 @@
 from .. import type_defs as GuiTypes
-from ..views.Dashboard import Dashboard__View
-from ..views.NewLog import NewLog__View
+from ..views.DashboardView import Dashboard__View
+from ..views.NewLogView import NewLog__View
 
 
 

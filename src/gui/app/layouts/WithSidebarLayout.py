@@ -1,12 +1,12 @@
-from ..components.widgets.Fragment import Fragment
+from ..components.FragmentComponent import FragmentComponent
 from .. import type_defs as GuiTypes
-from ..components.SidebarNav import SidebarNav__Component as SidebarNav
-from ..stores.navigation import navigation_store, NavigationState
+from ..components.SidebarNavComponent import SidebarNavComponent
+from ..stores.NavigationStore import navigation_store, NavigationState
 from ..router import router, RouteNotFoundError
 
 
 
-class WithSidebar__Layout(Fragment):
+class WithSidebarLayout(FragmentComponent):
   """Sidebar and content layout"""
 
   def __init__(self, master: GuiTypes.CTkMasterT):
@@ -14,7 +14,7 @@ class WithSidebar__Layout(Fragment):
 
     self._sidebar_area:   GuiTypes.CTkFrameT
     self._content_area:   GuiTypes.CTkFrameT
-    self.active_sidebar:  SidebarNav
+    self.active_sidebar:  SidebarNavComponent
     self.active_content:  GuiTypes.CTkFrameT | None = None
 
 
@@ -23,17 +23,17 @@ class WithSidebar__Layout(Fragment):
     self.grid_columnconfigure(1, weight=1)
 
 
-    sidebar_area = Fragment(self)
+    sidebar_area = FragmentComponent(self)
     sidebar_area.grid(row=0, column=0, sticky="ns")
     sidebar_area.grid_rowconfigure(0, weight=1)
     sidebar_area.grid_columnconfigure(0, weight=1)
     self._sidebar_area = sidebar_area
 
-    active_sidebar = SidebarNav(sidebar_area)
+    active_sidebar = SidebarNavComponent(sidebar_area)
     active_sidebar.grid(row=0, column=0, sticky="ns")
     self.active_sidebar = active_sidebar
 
-    content_area = Fragment(self)
+    content_area = FragmentComponent(self)
     content_area.grid(row=0, column=1, sticky="nsew")
     content_area.grid_rowconfigure(0, weight=1)
     content_area.grid_columnconfigure(0, weight=1)

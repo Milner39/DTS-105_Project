@@ -1,10 +1,10 @@
-from ..widgets.Fragment import Fragment
+from ..FragmentComponent import FragmentComponent
 from ... import type_defs as GuiTypes
-from .sidebar_button import SidebarNav_Button as Button
+from .button import Button
 
 
 
-class SidebarNav__Component(Fragment):
+class SidebarNavComponent(FragmentComponent):
   """Sidebar container (nav rail + border)."""
 
   def __init__(self, master: GuiTypes.CTkMasterT):
@@ -24,13 +24,13 @@ class SidebarNav__Component(Fragment):
     self.grid_columnconfigure(1, weight=0, minsize=self.BORDER_WIDTH)
 
 
-    nav = Fragment(self, width=self.NAV_WIDTH, corner_radius=0)
+    nav = FragmentComponent(self, width=self.NAV_WIDTH, corner_radius=0)
     nav.grid(row=0, column=0, sticky="ns")
     nav.grid_columnconfigure(0, weight=1)
     nav.grid_propagate(False)
     self.nav = nav
 
-    border = Fragment(self, width=self.BORDER_WIDTH, corner_radius=0, fg_color=("gray80", "gray30"))
+    border = FragmentComponent(self, width=self.BORDER_WIDTH, corner_radius=0, fg_color=("gray80", "gray30"))
     border.grid(row=0, column=1, sticky="nsew")
     border.grid_propagate(False)
     self.border = border

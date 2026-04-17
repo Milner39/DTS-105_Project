@@ -1,6 +1,6 @@
 from typing import TypeAlias, TypeVar, TypedDict, NotRequired, Union, Tuple
-import tkinter as _tk
-import customtkinter as _ctk
+import tkinter as tk
+import customtkinter as ctk
 
 
 """
@@ -13,11 +13,11 @@ Type definitions for the GUI.
 
 CTkColorT = Union[str, Tuple[str, str]]
 
-CTkMasterT:  TypeAlias = _tk.Misc
-CTkMasterTG = TypeVar("CTkMasterTG", bound=_tk.Misc)
+CTkMasterT: TypeAlias = tk.Misc
+CTkMasterTG = TypeVar("CTkMasterTG", bound=tk.Misc)
 
-CTkFrameT:  TypeAlias = _ctk.CTkFrame
-CTkFrameTG = TypeVar("CTkFrameTG", bound=_ctk.CTkFrame)
+CTkFrameT: TypeAlias = ctk.CTkFrame
+CTkFrameTG = TypeVar("CTkFrameTG", bound=ctk.CTkFrame)
 
 class CTkFrameKwargsT(TypedDict, total=False):
   width:          NotRequired[int]

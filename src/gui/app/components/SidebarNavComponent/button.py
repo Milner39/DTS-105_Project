@@ -3,8 +3,8 @@ from ... import type_defs as GuiTypes
 
 
 
-class SidebarNav_Button(_ctk.CTkButton):
-  """Default-styled button for sidebar navigation."""
+class Button(_ctk.CTkButton):
+  """Default-styled button for sidebar navigation bar."""
 
   def __init__(self, master: GuiTypes.CTkMasterT, *, height: int, command=None, image=None):
     super().__init__(
