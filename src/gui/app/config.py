@@ -7,7 +7,7 @@ class Config:
 
   @classmethod
   def apply_config(cls, app: ctk.CTk) -> None:
-    """Apply configuration defaults to customtkinter app"""
+    """Apply configuration to customtkinter app"""
 
     # Apply config
     ctk.set_appearance_mode("system")

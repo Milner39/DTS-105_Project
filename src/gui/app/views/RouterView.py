@@ -16,7 +16,7 @@ class RouterView(FragmentComponent):
     self.grid_columnconfigure(0, weight=1)
 
     self._router_area = FragmentComponent(self)
-    self._router_area.grid(row=0, column=1, sticky="nsew")
+    self._router_area.grid(row=0, column=0, sticky="nsew")
     self._router_area.grid_rowconfigure(0, weight=1)
     self._router_area.grid_columnconfigure(0, weight=1)
     self._router_content: GuiTypes.CTkFrameT | None = None
@@ -29,6 +29,11 @@ class RouterView(FragmentComponent):
     view_count = len(views)
     if view_count < 1: return
 
+    if self._router_content is not None:
+      self._router_content.destroy()
+
     self._router_content = views[0](self._router_area)
+    self._router_content.grid(row=0, column=0, sticky="nsew")
+
     if view_count > 1 and isinstance(self._router_content, RouterView):
       self._router_content.render_route(views[1:])

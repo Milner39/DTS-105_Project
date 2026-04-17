@@ -1,4 +1,5 @@
 from . import Store
+from ..router import router
 from dataclasses import dataclass, field
 
 
@@ -20,6 +21,11 @@ class NavigationStore(Store[NavigationState]):
     """
     segments = [s for s in path.split("/") if s]
     self.patch_state(lambda s: NavigationState(current_route=segments))
+
+
+  def get_views(self):
+    """Get the corresponding views for the current route."""
+    return router.resolve_route(self.get_state().current_route)
 
 
 

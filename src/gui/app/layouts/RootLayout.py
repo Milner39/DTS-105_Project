@@ -1,15 +1,18 @@
-from ..components.FragmentComponent import FragmentComponent
+from . import Layout
 from .. import type_defs as GuiTypes
+from ...assets import AssetUtils as AssetUtils
+from ..router import router
+from ..stores.NavigationStore import navigation_store, NavigationState
+from .WithSidebarLayout import WithSidebarLayout
+from ..views.RouterView import RouterView
 
 
 
-class RootLayout(FragmentComponent):
-  """Top-level layout container"""
+class RootLayout(Layout):
+  """Top-level layout"""
 
   def __init__(self, master: GuiTypes.CTkMasterT):
     super().__init__(master)
-
-    self._active_layout: GuiTypes.CTkFrameT | None = None
 
 
     self.grid(row=0, column=0, sticky="nsew")
@@ -17,14 +20,31 @@ class RootLayout(FragmentComponent):
     self.grid_columnconfigure(0, weight=1)
 
 
+    sidebar_layout = WithSidebarLayout(self)
+    sidebar_layout.sidebar.add_button(
+      image=AssetUtils.ctk_icon("house-line"),
+      command=lambda: navigation_store.navigate("dashboard")
+    )
+    sidebar_layout.sidebar.add_button(
+      image=AssetUtils.ctk_icon("notepad"),
+      command=lambda: navigation_store.navigate("new-log")
+    )
+    self._sidebar_layout = sidebar_layout
 
-  def set_layout(self, layout: type[GuiTypes.CTkFrameTG], *args, **kwargs) -> GuiTypes.CTkFrameTG:
-    """Replace current child layout (e.g. with sidebar layout)."""
+    router_view = sidebar_layout.set_content(RouterView)
+    self._router_view = router_view
 
-    if self._active_layout is not None:
-      self._active_layout.destroy()
+    navigation_store.subscribe(self._on_navigation_update)
 
-    active_layout = layout(self, *args, **kwargs)
-    active_layout.grid(row=0, column=0, sticky="nsew")
-    self._active_layout = active_layout
-    return self._active_layout
+
+
+  def set_content(self, new_content: type[GuiTypes.CTkFrameTG], *args, **kwargs) -> GuiTypes.CTkFrameTG:
+    content = super().set_content(new_content, *args, **kwargs)
+
+    content.grid(row=0, column=0, sticky="nsew")
+
+    return content
+
+
+  def _on_navigation_update(self, *args):
+    self._router_view.render_route(navigation_store.get_views())

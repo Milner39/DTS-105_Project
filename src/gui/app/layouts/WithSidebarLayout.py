@@ -1,12 +1,11 @@
+from . import Layout
 from ..components.FragmentComponent import FragmentComponent
 from .. import type_defs as GuiTypes
-from ..components.SidebarNavComponent import SidebarNavComponent
-from ..stores.NavigationStore import navigation_store, NavigationState
-from ..router import router, RouteNotFoundError
+from ..components.ButtonsSidebarComponent import ButtonsSidebarComponent
 
 
 
-class WithSidebarLayout(FragmentComponent):
+class WithSidebarLayout(Layout):
   """Sidebar and content layout"""
 
   def __init__(self, master: GuiTypes.CTkMasterT):
@@ -14,10 +13,10 @@ class WithSidebarLayout(FragmentComponent):
 
     self._sidebar_area:   GuiTypes.CTkFrameT
     self._content_area:   GuiTypes.CTkFrameT
-    self.active_sidebar:  SidebarNavComponent
-    self.active_content:  GuiTypes.CTkFrameT | None = None
+    self.sidebar:  ButtonsSidebarComponent
 
 
+    self.grid(row=0, column=0, sticky="nsew")
     self.grid_rowconfigure(0, weight=1)
     self.grid_columnconfigure(0, weight=0)
     self.grid_columnconfigure(1, weight=1)
@@ -29,9 +28,10 @@ class WithSidebarLayout(FragmentComponent):
     sidebar_area.grid_columnconfigure(0, weight=1)
     self._sidebar_area = sidebar_area
 
-    active_sidebar = SidebarNavComponent(sidebar_area)
-    active_sidebar.grid(row=0, column=0, sticky="ns")
-    self.active_sidebar = active_sidebar
+    sidebar = ButtonsSidebarComponent(sidebar_area)
+    sidebar.grid(row=0, column=0, sticky="ns")
+    self.sidebar = sidebar
+
 
     content_area = FragmentComponent(self)
     content_area.grid(row=0, column=1, sticky="nsew")
@@ -39,37 +39,11 @@ class WithSidebarLayout(FragmentComponent):
     content_area.grid_columnconfigure(0, weight=1)
     self._content_area = content_area
 
-    self._unsubscribe = navigation_store.subscribe(self._on_navigate)
 
 
+  def set_content(self, new_content: type[GuiTypes.CTkFrameTG], *args, **kwargs) -> GuiTypes.CTkFrameTG:
+    content = super().set_content(new_content, self._content_area, *args, **kwargs)
 
-  def _on_navigate(self, state: NavigationState, _prev: NavigationState) -> None:
-    if not state.current_route:
-      return
+    content.grid(row=0, column=0, sticky="nsew")
 
-    try:
-      views = router.resolve_route(state.current_route)
-    except RouteNotFoundError:
-      return
-
-    if views:
-      self.set_content(views[-1])
-
-
-
-  def destroy(self) -> None:
-    self._unsubscribe()
-    super().destroy()
-
-
-
-  def set_content(self, content: type[GuiTypes.CTkFrameTG], *args, **kwargs) -> GuiTypes.CTkFrameTG:
-    """Replace current content"""
-
-    if self.active_content is not None:
-      self.active_content.destroy()
-
-    active_content = content(self._content_area, *args, **kwargs)
-    active_content.grid(row=0, column=0, sticky="nsew")
-    self.active_content = active_content
-    return self.active_content
+    return content

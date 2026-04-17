@@ -1,6 +1,6 @@
 from .. import type_defs as GuiTypes
-from ..views.DashboardView import Dashboard__View
-from ..views.NewLogView import NewLog__View
+from ..views.DashboardView import DashboardView
+from ..views.NewLogView import NewLogView
 
 
 
@@ -110,7 +110,7 @@ class Route:
 
 router = Route(path="", view=None,
   children=[
-    Route(path="dashboard", view=Dashboard__View),
-    Route(path="new-log", view=NewLog__View)
+    Route(path="dashboard", view=DashboardView),
+    Route(path="new-log", view=NewLogView)
   ]
 )

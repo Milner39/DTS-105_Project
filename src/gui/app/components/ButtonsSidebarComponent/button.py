@@ -1,10 +1,10 @@
-import customtkinter as _ctk
+import customtkinter as ctk
 from ... import type_defs as GuiTypes
 
 
 
-class Button(_ctk.CTkButton):
-  """Default-styled button for sidebar navigation bar."""
+class Button(ctk.CTkButton):
+  """Styled button for sidebar"""
 
   def __init__(self, master: GuiTypes.CTkMasterT, *, height: int, command=None, image=None):
     super().__init__(

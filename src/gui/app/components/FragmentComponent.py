@@ -5,6 +5,12 @@ import customtkinter as ctk
 
 
 class FragmentComponent(ctk.CTkFrame):
+  """
+  | A blank frame that contains nothing.
+  |
+  | Useful for creating layouts with no background using inheritance.
+  """
+
   def __init__(
     self,
     master: GuiTypes.CTkMasterT,

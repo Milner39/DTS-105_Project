@@ -4,7 +4,7 @@ from .. import type_defs as GuiTypes
 
 
 
-class Dashboard__View(FragmentComponent):
+class DashboardView(FragmentComponent):
   """The `dashboard` view"""
 
   def __init__(self, master: GuiTypes.CTkMasterT):

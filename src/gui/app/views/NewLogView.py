@@ -4,7 +4,7 @@ from .. import type_defs as GuiTypes
 
 
 
-class NewLog__View(FragmentComponent):
+class NewLogView(FragmentComponent):
   """The `new log` view"""
 
   def __init__(self, master: GuiTypes.CTkMasterT):
