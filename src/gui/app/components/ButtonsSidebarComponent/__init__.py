@@ -54,8 +54,8 @@ class ButtonsSidebarComponent(FragmentComponent):
       self.bar,
       height=self.BAR_WIDTH,
       command=command,
-      image=AssetUtils.ctk_icon(icon),
-      active_image=AssetUtils.ctk_icon_tinted(icon, (255, 255, 255)),
+      image=AssetUtils.ctk_icon(icon, 32),
+      active_image=AssetUtils.ctk_icon_tinted(icon, (255, 255, 255), 32),
     )
     btn.grid(row=self._next_row, column=0, sticky="ew")
     self._next_row += 1

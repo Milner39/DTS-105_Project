@@ -13,7 +13,6 @@ class DashboardView(FragmentComponent):
 
     ctk.CTkLabel(self, text="Dashboard").pack(padx=12, pady=12)
 
-    logo = AssetUtils.ctk_icon("moodminder-logo")
-    logo.configure(size=(128,128))
+    logo = AssetUtils.ctk_icon("moodminder-logo", 128)
     logo_label = ctk.CTkLabel(self, text="", image=logo)
     logo_label.pack()

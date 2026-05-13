@@ -16,15 +16,15 @@ class AssetUtils:
 
 
   @classmethod
-  def ctk_icon(cls, name: str) -> ctk.CTkImage:
+  def ctk_icon(cls, name: str, size: int = 32) -> ctk.CTkImage:
     """Return a customtkinter image of the given icon"""
 
     icon_file = SVGUtils.get_icon(name)
-    return ctk.CTkImage(light_image=icon_file, dark_image=icon_file)
+    return ctk.CTkImage(light_image=icon_file, dark_image=icon_file, size=(size,size))
 
 
   @classmethod
-  def ctk_icon_tinted(cls, name: str, color: tuple[int, int, int]) -> ctk.CTkImage:
+  def ctk_icon_tinted(cls, name: str, color: tuple[int, int, int], size: int = 32) -> ctk.CTkImage:
     """Return a recoloured customtkinter image of the given icon"""
 
     source = SVGUtils.get_icon(name).convert("RGBA")
@@ -32,4 +32,4 @@ class AssetUtils:
     tinted = Image.new("RGBA", source.size, (r, g, b, 0))
     tinted.putalpha(source.split()[3])
 
-    return ctk.CTkImage(light_image=tinted, dark_image=tinted)
+    return ctk.CTkImage(light_image=tinted, dark_image=tinted, size=(size,size))
