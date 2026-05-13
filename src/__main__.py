@@ -1,3 +1,4 @@
-from .gui.app import Gui as _Gui
+from .gui.app import Gui
 
-_Gui.mainloop()
+# Start the GUI
+Gui.mainloop()

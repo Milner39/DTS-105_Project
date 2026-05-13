@@ -73,12 +73,20 @@ class Route:
     views: list[type[GuiTypes.CTkFrameT]] | None = None,
     from_root: bool = True
   ) -> list[type[GuiTypes.CTkFrameT]]:
-    """Recursive function to match the route to the view"""
+    """
+    | Recursively walk the route tree, building up the list of views to render.
+    |
+    | `path_segments`: remaining path segments yet to be matched
+    | `views`: accumulated list of views to render, built up across recursive calls
+    | `from_root`: whether this call is the root of the recursion — used to wrap
+    |   the error with the full path, which child calls don't have access to
+    """
 
     if views is None:
       views = []
 
 
+    # No more segments to match so this is the target view
     if len(path_segments) == 0:
       if self.view is None:
         raise RouteNotFoundError("Route has no view")
@@ -86,10 +94,13 @@ class Route:
       views.append(self.view)
       return views
 
+
+    # Layout views are always rendered
     if self.is_layout and self.view is not None:
       views.append(self.view)
 
 
+    # Advance to the next segment and recurse into the matching child
     path = path_segments[0]
     if path not in self.child_paths:
       raise RouteNotFoundError(f"No child route '{path}'")
@@ -98,6 +109,7 @@ class Route:
     try:
       self.child_paths[path].resolve_route(path_segments[1:], views, False)
     except RouteNotFoundError as e:
+      # Only the root call re-raises with the full path
       if not from_root:
         raise
       raise RouteNotFoundError(
