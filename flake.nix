@@ -17,6 +17,7 @@
         uv
         python313
         python313Packages.tkinter
+        python313Packages.cairosvg
       ];
 
       UV_PYTHON_DOWNLOADS = "never";
