@@ -1,8 +1,7 @@
 from . import Layout
 from .. import type_defs as GuiTypes
 from ...assets import AssetUtils as AssetUtils
-from ..router import router
-from ..stores.NavigationStore import navigation_store, NavigationState
+from ..stores.NavigationStore import navigation_store
 from .WithSidebarLayout import WithSidebarLayout
 from ..views.RouterView import RouterView
 
