@@ -1,4 +1,5 @@
 import customtkinter as ctk
+from collections.abc import Callable
 from ... import type_defs as GuiTypes
 
 
@@ -6,7 +7,15 @@ from ... import type_defs as GuiTypes
 class Button(ctk.CTkButton):
   """Styled button for sidebar"""
 
-  def __init__(self, master: GuiTypes.CTkMasterT, *, height: int, command=None, image=None):
+  def __init__(
+    self,
+    master: GuiTypes.CTkMasterT,
+    *,
+    height: int,
+    image : ctk.CTkImage,
+    active_image: ctk.CTkImage,
+    command: Callable | None
+  ):
     super().__init__(
       master=master,
       height=height,
@@ -17,4 +26,14 @@ class Button(ctk.CTkButton):
       fg_color="transparent",
       hover_color=("gray88", "gray22"),
       anchor="center",
+    )
+    self._image_normal = image
+    self._image_active = active_image
+
+
+  def set_active(self, is_active: bool) -> None:
+    self.configure(
+      fg_color="#009994" if is_active else "transparent",
+      hover=not is_active,
+      image=self._image_active if is_active else self._image_normal,
     )

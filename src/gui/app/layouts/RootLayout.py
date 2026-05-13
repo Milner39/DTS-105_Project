@@ -1,9 +1,9 @@
 from . import Layout
 from .. import type_defs as GuiTypes
-from ...assets import AssetUtils as AssetUtils
 from ..stores.NavigationStore import navigation_store
 from .WithSidebarLayout import WithSidebarLayout
 from ..views.RouterView import RouterView
+from ..components.ButtonsSidebarComponent import Button
 
 
 
@@ -20,15 +20,20 @@ class RootLayout(Layout):
 
 
     sidebar_layout = WithSidebarLayout(self)
-    sidebar_layout.sidebar.add_button(
-      image=AssetUtils.ctk_icon("house-line"),
-      command=lambda: navigation_store.navigate("dashboard")
-    )
-    sidebar_layout.sidebar.add_button(
-      image=AssetUtils.ctk_icon("notepad"),
-      command=lambda: navigation_store.navigate("new-log")
-    )
+
+    self._sidebar_buttons = [
+      ("dashboard", sidebar_layout.sidebar.add_button(
+        icon="house-line",
+        command=lambda: navigation_store.navigate("dashboard"),
+      )),
+      ("new-log", sidebar_layout.sidebar.add_button(
+        icon="notepad",
+        command=lambda: navigation_store.navigate("new-log"),
+      ))
+    ]
+
     self._sidebar_layout = sidebar_layout
+
 
     router_view = sidebar_layout.set_content(RouterView)
     self._router_view = router_view
@@ -47,3 +52,9 @@ class RootLayout(Layout):
 
   def _on_navigation_update(self, *args):
     self._router_view.render_route(navigation_store.get_views())
+
+    current_route = navigation_store.get_state().current_route
+
+    # Configure button colors
+    for route, btn in self._sidebar_buttons:
+      btn.set_active(bool(current_route) and current_route[0] == route)
