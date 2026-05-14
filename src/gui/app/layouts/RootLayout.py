@@ -30,6 +30,10 @@ class RootLayout(Layout):
       ("new-log", sidebar_layout.sidebar.add_button(
         icon="notepad",
         command=lambda: navigation_store.navigate("new-log"),
+      )),
+      ("calendar", sidebar_layout.sidebar.add_button(
+        icon="calendar-dots",
+        command=lambda: navigation_store.navigate("calendar")
       ))
     ]
 

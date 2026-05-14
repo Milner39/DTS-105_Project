@@ -1,6 +1,7 @@
 from .. import type_defs as GuiTypes
 from ..views.DashboardView import DashboardView
 from ..views.NewLogView import NewLogView
+from ..views.CalanderView import CalendarView
 
 
 
@@ -123,6 +124,7 @@ class Route:
 router = Route(path="", view=None,
   children=[
     Route(path="dashboard", view=DashboardView),
-    Route(path="new-log", view=NewLogView)
+    Route(path="new-log", view=NewLogView),
+    Route(path="calendar", view=CalendarView)
   ]
 )
