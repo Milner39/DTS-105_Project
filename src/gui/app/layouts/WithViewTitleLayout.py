@@ -29,9 +29,7 @@ class WithViewTitleLayout(Layout):
 
     title = ctk.CTkLabel(title_area,
       text=title_text,
-      font=ctk.CTkFont(
-        size=24, weight="bold"
-      )
+      font=ctk.CTkFont(size=24, weight="bold")
     )
     title.pack(padx=8, pady=8)
     self.title = title
