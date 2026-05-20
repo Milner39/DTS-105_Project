@@ -1,6 +1,7 @@
 import customtkinter as ctk
 from collections.abc import Callable
 from ... import type_defs as GuiTypes
+from ...theme import Colors
 
 
 
@@ -24,7 +25,7 @@ class Button(ctk.CTkButton):
       image=image,
       corner_radius=0,
       fg_color="transparent",
-      hover_color=("gray88", "gray22"),
+      hover_color=Colors.Grayscale.neutral_700,
       anchor="center",
     )
     self._image_normal = image
@@ -33,7 +34,7 @@ class Button(ctk.CTkButton):
 
   def set_active(self, is_active: bool) -> None:
     self.configure(
-      fg_color="#009994" if is_active else "transparent",
+      fg_color=Colors.Brand.secondary if is_active else "transparent",
       hover=not is_active,
       image=self._image_active if is_active else self._image_normal,
     )

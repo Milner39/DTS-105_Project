@@ -1,6 +1,7 @@
 from ..FragmentComponent import FragmentComponent
 from collections.abc import Callable
 from ... import type_defs as GuiTypes
+from ...theme import Colors
 from ....assets import AssetUtils
 from .button import Button
 
@@ -40,7 +41,7 @@ class ButtonsSidebarComponent(FragmentComponent):
     bar.grid_propagate(False)
     self.bar = bar
 
-    border = FragmentComponent(self, width=self.BORDER_WIDTH, corner_radius=0, fg_color=("gray80", "gray30"))
+    border = FragmentComponent(self, width=self.BORDER_WIDTH, corner_radius=0, fg_color=Colors.Surface.border)
     border.grid(row=0, column=1, sticky="nsew")
     border.grid_propagate(False)
     self.border = border

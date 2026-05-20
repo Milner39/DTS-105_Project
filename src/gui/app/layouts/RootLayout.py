@@ -2,6 +2,7 @@ import customtkinter as ctk
 from . import Layout
 from .. import type_defs as GuiTypes
 from ..stores.NavigationStore import navigation_store
+from ..theme import Colors
 from .WithSidebarLayout import WithSidebarLayout
 from ..views.RouterView import RouterView
 from ...assets import AssetUtils
@@ -13,6 +14,7 @@ class RootLayout(Layout):
 
   def __init__(self, master: GuiTypes.CTkMasterT):
     super().__init__(master)
+    self.configure(fg_color=Colors.Surface.background)
 
 
     self.grid(row=0, column=0, sticky="nsew")
