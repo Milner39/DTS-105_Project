@@ -20,9 +20,12 @@ class TextBoxComponent(FragmentComponent):
 
 
   def add_label(self, text: str, **label_kwargs) -> ctk.CTkLabel:
-    # Add label to the text box and list of labels to configure
-    label = ctk.CTkLabel(self, text=text, justify="center", **label_kwargs)
-    label.pack()
+    """ Add label to the text box and the list of labels to configure"""
+
+    if "justify" not in label_kwargs: label_kwargs.update(justify="center")
+
+    label = ctk.CTkLabel(self, text=text, **label_kwargs)
+    label.pack(fill="x")
     self._labels.append(label)
     return label
 
