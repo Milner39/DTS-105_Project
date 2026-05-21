@@ -1,7 +1,7 @@
 import customtkinter as ctk
 from .config import Config
-from ..assets import AssetUtils as AssetUtils
-from .stores.NavigationStore import navigation_store as navigation_store
+from ..assets import AssetUtils
+from .stores.NavigationStore import navigation_store
 from .views.RootView import RootView
 
 
