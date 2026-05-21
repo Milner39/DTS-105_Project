@@ -1,10 +1,11 @@
+import customtkinter as ctk
 from . import Layout
 from .. import type_defs as GuiTypes
-from ...assets import AssetUtils as AssetUtils
-from ..router import router
-from ..stores.NavigationStore import navigation_store, NavigationState
+from ..stores.NavigationStore import navigation_store
+from ..theme import Colors
 from .WithSidebarLayout import WithSidebarLayout
 from ..views.RouterView import RouterView
+from ...assets import AssetUtils
 
 
 
@@ -13,6 +14,7 @@ class RootLayout(Layout):
 
   def __init__(self, master: GuiTypes.CTkMasterT):
     super().__init__(master)
+    self.configure(fg_color=Colors.Surface.background)
 
 
     self.grid(row=0, column=0, sticky="nsew")
@@ -21,15 +23,30 @@ class RootLayout(Layout):
 
 
     sidebar_layout = WithSidebarLayout(self)
-    sidebar_layout.sidebar.add_button(
-      image=AssetUtils.ctk_icon("house-line"),
-      command=lambda: navigation_store.navigate("dashboard")
-    )
-    sidebar_layout.sidebar.add_button(
-      image=AssetUtils.ctk_icon("notepad"),
-      command=lambda: navigation_store.navigate("new-log")
-    )
+
+    self._sidebar_buttons = [
+      ("dashboard", sidebar_layout.sidebar.add_button(
+        icon="house-line",
+        command=lambda: navigation_store.navigate("dashboard"),
+      )),
+      ("new-log", sidebar_layout.sidebar.add_button(
+        icon="notepad",
+        command=lambda: navigation_store.navigate("new-log"),
+      )),
+      ("calendar", sidebar_layout.sidebar.add_button(
+        icon="calendar-dots",
+        command=lambda: navigation_store.navigate("calendar")
+      ))
+    ]
+
     self._sidebar_layout = sidebar_layout
+
+
+    # Pin logo bottom left
+    logo = AssetUtils.ctk_icon("moodminder-logo", 40)
+    logo_label = ctk.CTkLabel(self, text="", image=logo)
+    logo_label.place(relx=0, rely=1, x=4, y=-4, anchor="sw")
+
 
     router_view = sidebar_layout.set_content(RouterView)
     self._router_view = router_view
@@ -48,3 +65,9 @@ class RootLayout(Layout):
 
   def _on_navigation_update(self, *args):
     self._router_view.render_route(navigation_store.get_views())
+
+    current_route = navigation_store.get_state().current_route
+
+    # Configure button colors
+    for route, btn in self._sidebar_buttons:
+      btn.set_active(bool(current_route) and current_route[0] == route)

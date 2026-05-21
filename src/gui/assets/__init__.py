@@ -1,18 +1,11 @@
 import customtkinter as ctk
+from PIL import Image
 from .images.svgs import SVGUtils
 
 
 
 class AssetUtils:
   """Class containing utilities for using assets"""
-
-  # Keep a reference to the loaded assets so they do not get garbage collected
-  # Something is telling me this is horrible practice and will likely consume 
-  # huge amounts of memory, but at least it will speed up accesses
-  loaded = {
-    "icons": {}
-  }
-
 
   @staticmethod
   def prepare_assets():
@@ -23,15 +16,20 @@ class AssetUtils:
 
 
   @classmethod
-  def ctk_icon(cls, name: str):
+  def ctk_icon(cls, name: str, size: int = 32) -> ctk.CTkImage:
     """Return a customtkinter image of the given icon"""
 
-    loaded_icons = cls.loaded["icons"]
-
-    # Check if icon has already been loaded
-    if (name in loaded_icons and loaded_icons[name]): return loaded_icons[name]
-
     icon_file = SVGUtils.get_icon(name)
-    ctk_icon = ctk.CTkImage(light_image=icon_file, dark_image=icon_file)
-    cls.loaded["icons"][name] = ctk_icon
-    return ctk_icon
+    return ctk.CTkImage(light_image=icon_file, dark_image=icon_file, size=(size,size))
+
+
+  @classmethod
+  def ctk_icon_tinted(cls, name: str, color: tuple[int, int, int], size: int = 32) -> ctk.CTkImage:
+    """Return a recoloured customtkinter image of the given icon"""
+
+    source = SVGUtils.get_icon(name).convert("RGBA")
+    r, g, b = color
+    tinted = Image.new("RGBA", source.size, (r, g, b, 0))
+    tinted.putalpha(source.split()[3])
+
+    return ctk.CTkImage(light_image=tinted, dark_image=tinted, size=(size,size))

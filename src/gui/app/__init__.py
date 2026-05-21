@@ -2,7 +2,7 @@ import customtkinter as ctk
 from .config import Config
 from ..assets import AssetUtils as AssetUtils
 from .stores.NavigationStore import navigation_store as navigation_store
-from .layouts.RootLayout import RootLayout
+from .views.RootView import RootView
 
 
 
@@ -47,7 +47,7 @@ class Gui():
     app.grid_columnconfigure(0, weight=1)
 
     # Create and render the root layout
-    root = RootLayout(app)
+    root = RootView(app)
 
     # Navigate to landing page
     navigation_store.navigate("dashboard")

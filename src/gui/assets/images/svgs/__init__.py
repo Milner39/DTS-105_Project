@@ -14,7 +14,7 @@ class SVGUtils:
 
 
   @classmethod
-  def prepare_icons(cls, size=64):
+  def prepare_icons(cls, size=256):
     """
     | Convert svg files into png files.
 
