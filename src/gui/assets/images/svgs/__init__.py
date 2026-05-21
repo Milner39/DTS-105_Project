@@ -1,5 +1,5 @@
 import os
-import cairosvg as cairosvg
+import resvg_py
 from PIL import Image
 
 
@@ -36,12 +36,13 @@ class SVGUtils:
         (not os.path.exists(png_path))
         or (os.path.getmtime(svg_path) > os.path.getmtime(png_path))
       ):
-        cairosvg.svg2png(
-          url=svg_path,
-          write_to=png_path,
-          output_width=size,
-          output_height=size
+        png_bytes = resvg_py.svg_to_bytes(
+          svg_path=svg_path,
+          width=size,
+          height=size,
         )
+        with open(png_path, "wb") as f:
+          f.write(png_bytes)
 
 
 
