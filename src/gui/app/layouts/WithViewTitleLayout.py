@@ -2,6 +2,7 @@ import customtkinter as ctk
 from . import Layout
 from ..components.FragmentComponent import FragmentComponent
 from .. import type_defs as GuiTypes
+from ..theme import Fonts
 
 
 
@@ -29,7 +30,7 @@ class WithViewTitleLayout(Layout):
 
     title = ctk.CTkLabel(title_area,
       text=title_text,
-      font=ctk.CTkFont(size=24, weight="bold")
+      font=Fonts.Heading.lg()
     )
     title.pack(padx=8, pady=8)
     self.title = title

@@ -4,7 +4,7 @@ import customtkinter as ctk
 from ..FragmentComponent import FragmentComponent
 from ..TextBoxComponent import TextBoxComponent
 from ... import type_defs as GuiTypes
-from ...theme import Colors
+from ...theme import Colors, Fonts
 from .inputs import FormInput
 
 
@@ -36,7 +36,7 @@ class FormComponent(FragmentComponent):
     heading_box.pack(fill="x", padx=22, pady=(0, 22))
     heading_box.add_label(
       text,
-      font=ctk.CTkFont(size=22, weight="bold"),
+      font=Fonts.Heading.md(),
     )
 
 
@@ -46,7 +46,7 @@ class FormComponent(FragmentComponent):
     section_box.pack(fill="x", padx=22, pady=(12, 10))
     section_box.add_label(
       text,
-      font=ctk.CTkFont(size=14, weight="bold"),
+      font=Fonts.Heading.xs(),
       text_color=Colors.Grayscale.neutral_300,
       justify="left",
       anchor="w",
@@ -80,7 +80,7 @@ class FormComponent(FragmentComponent):
       corner_radius=4,
       height=32,
       width=120,
-      font=ctk.CTkFont(size=14, weight="bold"),
+      font=Fonts.Heading.xs(),
     )
     button.pack(side="right")
 

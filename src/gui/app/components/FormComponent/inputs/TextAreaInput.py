@@ -2,7 +2,7 @@ import customtkinter as ctk
 from .FormInput import FormInput
 from ...TextBoxComponent import TextBoxComponent
 from .... import type_defs as GuiTypes
-from ....theme import Colors
+from ....theme import Colors, Fonts
 
 
 
@@ -21,7 +21,7 @@ class TextAreaInput(FormInput):
     label_box.pack(fill="x", pady=(0, 5))
     label_box.add_label(
       label,
-      font=ctk.CTkFont(size=13),
+      font=Fonts.Body.md(),
       text_color=Colors.Grayscale.neutral_300,
       justify="left",
       anchor="w",
@@ -34,7 +34,7 @@ class TextAreaInput(FormInput):
       border_width=1,
       border_color=Colors.Surface.border,
       fg_color=Colors.Surface.background,
-      font=ctk.CTkFont(size=12),
+      font=Fonts.Body.md(),
       wrap="word",
     )
     self._textbox.pack(fill="x")

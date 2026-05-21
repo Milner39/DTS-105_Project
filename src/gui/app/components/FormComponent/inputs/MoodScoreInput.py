@@ -4,7 +4,7 @@ from .FormInput import FormInput
 from typing import Any
 from collections.abc import Callable
 from .... import type_defs as GuiTypes
-from ....theme import Colors
+from ....theme import Colors, Fonts
 
 
 
@@ -62,14 +62,14 @@ class MoodScoreInput(FormInput):
 
       number = ctk.CTkLabel(tile,
         text=str(tile_num),
-        font=ctk.CTkFont(size=26, weight="bold"),
+        font=Fonts.Heading.xl(),
         text_color=Colors.Grayscale.neutral_300,
       )
       number.grid(row=0, column=0, sticky="s")
 
       label = ctk.CTkLabel(tile,
         text=self.LABELS[tile_index],
-        font=ctk.CTkFont(size=10),
+        font=Fonts.Body.sm(),
         text_color=Colors.Grayscale.neutral_300,
       )
       label.grid(row=1, column=0, pady=(2, 8))
