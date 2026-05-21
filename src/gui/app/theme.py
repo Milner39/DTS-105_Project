@@ -1,6 +1,7 @@
 from .type_defs import CTkColorT
 
-
+# Light / Dark variants use HSL colour space and have their lightness +/- by 10%
+# Transparent variants are pre-blended against a white background at 20% opacity
 
 class _Brand:
   primary_100:  CTkColorT = "#8D62F2"
@@ -12,7 +13,7 @@ class _Brand:
   secondary:        CTkColorT = "#009994"
   secondary__light: CTkColorT = "#00CCC5"
   secondary__dark:  CTkColorT = "#006663"
-
+  secondary__transparent: CTkColorT = "#CCEBEA"
 
 
 class _Grayscale:
