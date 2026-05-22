@@ -65,6 +65,21 @@ class FormComponent(FragmentComponent):
     return field
 
 
+  def clear_errors(self) -> None:
+    for field in self._inputs.values():
+      field.clear_error()
+
+
+  def error_message(self, name: str, message: str) -> None:
+    if name in self._inputs:
+      self._inputs[name].set_error(message)
+
+
+  def validate_inputs(self, values: dict[str, Any]) -> bool:
+    """Validate form values before submission."""
+    return True
+
+
   def add_submit_button(self, text: str) -> None:
     """Add the submit button to a right-aligned footer."""
     footer = FragmentComponent(self)
@@ -88,4 +103,7 @@ class FormComponent(FragmentComponent):
 
   def _submit(self) -> None:
     values = {name: input.get_value() for name, input in self._inputs.items()}
+    self.clear_errors()
+    if not self.validate_inputs(values):
+      return
     if self._on_submit is not None: self._on_submit(values)
