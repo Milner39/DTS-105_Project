@@ -80,6 +80,7 @@ class FormComponent(FragmentComponent):
       text=text,
       command=self._submit,
       fg_color=Colors.Brand.secondary,
+      corner_radius=Sizes.Radius.sm,
       hover_color=Colors.Brand.secondary__dark,
       text_color=Colors.Grayscale.neutral_900,
       font=Fonts.Heading.xs(),
