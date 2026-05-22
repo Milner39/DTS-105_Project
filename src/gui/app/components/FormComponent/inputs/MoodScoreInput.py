@@ -70,14 +70,18 @@ class MoodScoreInput(FormInput):
         font=Fonts.Heading.xl(),
         text_color=Colors.Grayscale.neutral_300,
       )
-      number.grid(row=0, column=0)
+      number.grid(row=0, column=0,
+        pady=(Sizes.Spacing.sm, Sizes.Spacing.none)
+      )
 
       label = ctk.CTkLabel(tile,
         text=self.LABELS[tile_index],
         font=Fonts.Body.sm(),
         text_color=Colors.Grayscale.neutral_300,
       )
-      label.grid(row=1, column=0)
+      label.grid(row=1, column=0,
+        pady=(Sizes.Spacing.none, Sizes.Spacing.sm)
+      )
 
 
       # Bind a click event listener to tile
