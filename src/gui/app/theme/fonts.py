@@ -3,30 +3,29 @@ import customtkinter as ctk
 
 class _Heading:
   @staticmethod
-  def xl() -> ctk.CTkFont: return ctk.CTkFont(size=26, weight="bold")
-
-  @staticmethod
-  def lg() -> ctk.CTkFont: return ctk.CTkFont(size=24, weight="bold")
-
-  @staticmethod
-  def md() -> ctk.CTkFont: return ctk.CTkFont(size=22, weight="bold")
+  def xs() -> ctk.CTkFont: return ctk.CTkFont(size=14, weight="bold")
 
   @staticmethod
   def sm() -> ctk.CTkFont: return ctk.CTkFont(size=20, weight="bold")
 
   @staticmethod
-  def xs() -> ctk.CTkFont: return ctk.CTkFont(size=14, weight="bold")
+  def md() -> ctk.CTkFont: return ctk.CTkFont(size=22, weight="bold")
 
+  @staticmethod
+  def lg() -> ctk.CTkFont: return ctk.CTkFont(size=24, weight="bold")
+
+  @staticmethod
+  def xl() -> ctk.CTkFont: return ctk.CTkFont(size=26, weight="bold")
 
 class _Body:
   @staticmethod
-  def lg() -> ctk.CTkFont: return ctk.CTkFont(size=16)
+  def sm() -> ctk.CTkFont: return ctk.CTkFont(size=10)
 
   @staticmethod
   def md() -> ctk.CTkFont: return ctk.CTkFont(size=12)
 
   @staticmethod
-  def sm() -> ctk.CTkFont: return ctk.CTkFont(size=10)
+  def lg() -> ctk.CTkFont: return ctk.CTkFont(size=16)
 
 
 

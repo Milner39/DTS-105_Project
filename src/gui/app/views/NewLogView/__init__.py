@@ -3,6 +3,7 @@ from ...components.FragmentComponent import FragmentComponent
 from ...layouts.WithViewTitleLayout import WithViewTitleLayout
 from .components.NewLogFormComponent import NewLogFormComponent
 from ... import type_defs as GuiTypes
+from ...theme import Sizes
 
 
 
@@ -14,27 +15,34 @@ class NewLogView(FragmentComponent):
     self.grid_rowconfigure(0, weight=1)
     self.grid_columnconfigure(0, weight=1)
 
-    self.CARD_MAX_WIDTH: int = 520
+    self.CARD_MAX_WIDTH: int = 512
 
 
     view_title_layout = WithViewTitleLayout(self, "New Log")
     content = view_title_layout.set_content(FragmentComponent)
 
 
+    center = FragmentComponent(content)
+    center.pack(expand=True, fill="both",
+      padx=Sizes.Spacing.md, pady=Sizes.Spacing.md,
+    )
+
     # 3x3 grid centres the card horizontally and vertically.
-    content.grid_columnconfigure(0, weight=1)
-    content.grid_columnconfigure(1, weight=0, minsize=self.CARD_MAX_WIDTH)
-    content.grid_columnconfigure(2, weight=1)
-    content.grid_rowconfigure(0, weight=1)
-    content.grid_rowconfigure(1, weight=0)
-    content.grid_rowconfigure(2, weight=1)
+    # grid let's us use `minsize` (can't with `pack`)
+    center.grid_columnconfigure(0, weight=1)
+    center.grid_columnconfigure(1, weight=0, minsize=self.CARD_MAX_WIDTH)
+    center.grid_columnconfigure(2, weight=1)
+    center.grid_rowconfigure(0, weight=1)
+    center.grid_rowconfigure(1, weight=0)
+    center.grid_rowconfigure(2, weight=1)
+  
+    center.bind("<Configure>", self._on_resize)
+    center.after_idle(self._on_resize)
 
-    self._content = content
-    content.bind("<Configure>", self._on_resize)
-    content.after_idle(self._on_resize)
+    self._center = center
 
 
-    card = CardComponent(content)
+    card = CardComponent(center)
     card.grid(row=1, column=1, sticky="ew")
 
     form = NewLogFormComponent(card.content)
@@ -49,7 +57,7 @@ class NewLogView(FragmentComponent):
       - CARD_MAX_WIDTH
     """
 
-    available_w = self._content.winfo_width()
-    self._content.grid_columnconfigure(1,
+    available_w = self._center.winfo_width()
+    self._center.grid_columnconfigure(1,
       minsize=min(self.CARD_MAX_WIDTH, max(0, available_w))
     )

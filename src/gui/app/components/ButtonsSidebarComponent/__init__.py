@@ -1,7 +1,7 @@
 from ..FragmentComponent import FragmentComponent
 from collections.abc import Callable
 from ... import type_defs as GuiTypes
-from ...theme import Colors
+from ...theme import Colors, Sizes
 from ....assets import AssetUtils
 from .button import Button
 
@@ -21,8 +21,9 @@ class ButtonsSidebarComponent(FragmentComponent):
   def __init__(self, master: GuiTypes.CTkMasterT):
     super().__init__(master)
 
-    self.BAR_WIDTH: int = 48
-    self.BORDER_WIDTH: int = 2
+    self.BAR_WIDTH: int = Sizes.Dimension.md
+    self.BUTTON_IMAGE_SIZE = self.BAR_WIDTH - (2*Sizes.Spacing.sm)
+    self.BORDER_WIDTH: int = Sizes.Border.md
 
     self.bar:     GuiTypes.CTkFrameT
     self.border:  GuiTypes.CTkFrameT
@@ -35,28 +36,31 @@ class ButtonsSidebarComponent(FragmentComponent):
     self.grid_columnconfigure(1, weight=0, minsize=self.BORDER_WIDTH)
 
 
-    bar = FragmentComponent(self, width=self.BAR_WIDTH, corner_radius=0)
+    bar = FragmentComponent(self, width=self.BAR_WIDTH)
     bar.grid(row=0, column=0, sticky="ns")
     bar.grid_columnconfigure(0, weight=1)
     bar.grid_propagate(False)
     self.bar = bar
 
-    border = FragmentComponent(self, width=self.BORDER_WIDTH, corner_radius=0, fg_color=Colors.Surface.border)
+    border = FragmentComponent(self,
+      width=self.BORDER_WIDTH,
+      fg_color=Colors.Surface.border
+    )
     border.grid(row=0, column=1, sticky="nsew")
     border.grid_propagate(False)
     self.border = border
 
 
 
-  def add_button(self, *, icon: str, command: Callable | None =None) -> Button:
+  def add_button(self, *, icon: str, command: Callable | None = None) -> Button:
     """Add a button to the sidebar"""
 
     btn = Button(
       self.bar,
       height=self.BAR_WIDTH,
       command=command,
-      image=AssetUtils.ctk_icon(icon, 32),
-      active_image=AssetUtils.ctk_icon_tinted(icon, (255, 255, 255), 32),
+      image=AssetUtils.ctk_icon(icon, self.BUTTON_IMAGE_SIZE),
+      active_image=AssetUtils.ctk_icon_tinted(icon, (255, 255, 255), self.BUTTON_IMAGE_SIZE),
     )
     btn.grid(row=self._next_row, column=0, sticky="ew")
     self._next_row += 1

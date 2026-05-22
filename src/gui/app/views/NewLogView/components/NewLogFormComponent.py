@@ -18,7 +18,7 @@ class NewLogFormComponent(FormComponent):
     today = date.today()
     date_text = f"{today.strftime('%A, %B')} {today.day}, {today.year}"
     date_box = TextBoxComponent(self)
-    date_box.pack(fill="x", padx=22, pady=(28, 4))
+    date_box.pack(fill="x")
     date_box.add_label(
       date_text,
       font=Fonts.Body.md(),

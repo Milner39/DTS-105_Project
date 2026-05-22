@@ -1,7 +1,7 @@
 import customtkinter as ctk
 from collections.abc import Callable
 from ... import type_defs as GuiTypes
-from ...theme import Colors
+from ...theme import Colors, Sizes
 
 
 
@@ -21,9 +21,9 @@ class Button(ctk.CTkButton):
       master=master,
       height=height,
       text="",
+      corner_radius=Sizes.Radius.none,
       command=command,
       image=image,
-      corner_radius=0,
       fg_color="transparent",
       hover_color=Colors.Grayscale.neutral_700,
       anchor="center",
