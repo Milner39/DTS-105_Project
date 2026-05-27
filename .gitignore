@@ -4,3 +4,6 @@ tmp
 
 # Big files to not track (assets, large folders, etc.)
 /archive
+
+# SQLite databases
+*.db

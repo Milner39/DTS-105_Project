@@ -5,7 +5,9 @@ requires-python = "==3.13.*"
 dependencies = [
   # Add with `uv add <package-name>`
   "customtkinter>=5.2.2",
+  "peewee>=4.0.6",
   "pillow>=12.2.0",
+  "pydantic>=2.13.4",
   "resvg-py>=0.3.1",
   "yapf>=0.43.0",
 ]

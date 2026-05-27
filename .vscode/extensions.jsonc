@@ -7,6 +7,7 @@
     "be5invis.toml",
     "ms-python.python",
     "eeyore.yapf",
+    "qwtel.sqlite-viewer",
     "bbenoist.nix"
   ]
 }

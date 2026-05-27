@@ -4,12 +4,29 @@ from ....components.FormComponent import FormComponent
 from ....components.FormComponent.inputs import MoodScoreInput, TextAreaInput
 from ....components.TextBoxComponent import TextBoxComponent
 from ....theme import Colors, Fonts
+from ......database import Queries
+from ......database.models.MoodLogModel import MoodLogNotesT
 from .... import type_defs as GuiTypes
 
 
 
 class NewLogFormComponent(FormComponent):
   """The mood log form: date, score, two prompts and save."""
+
+  # Sets the form's text-area prompts
+  QUESTIONS: MoodLogNotesT = [
+    {
+      "question": "What made you feel this way today?",
+      "display": "Reasons for Score",
+      "answer": "",
+    },
+    {
+      "question": "Any physical symptoms? (headache, fatigue, etc.)",
+      "display": "Physical Symptoms",
+      "answer": "",
+    },
+  ]
+
 
   def __init__(self, master: GuiTypes.CTkMasterT):
     super().__init__(master, on_submit=self._on_submit)
@@ -29,11 +46,21 @@ class NewLogFormComponent(FormComponent):
     self.add_heading("How are you feeling today?")
     self.add_input("score", MoodScoreInput(self))
     self.add_section_heading("A couple of questions…")
-    self.add_input("q1", TextAreaInput(self, label="What made you feel this way today?"))
-    self.add_input("q2", TextAreaInput(self, label="Any physical symptoms? (headache, fatigue, etc.)"))
+    for i, q in enumerate(self.QUESTIONS):
+      self.add_input(f"q{i}", TextAreaInput(self, label=q["question"]))
     self.add_submit_button("Save Entry")
 
 
 
   def _on_submit(self, values: dict[str, Any]) -> None:
-    print(f"[NewLog] score={values['score']} q1={values['q1']!r} q2={values['q2']!r}")
+    score = values["score"]
+    if score is None:
+      print("[NewLog] no score selected, ignoring submit")
+      return
+
+    notes: MoodLogNotesT = [
+      {**q, "answer": values[f"q{i}"]} for i, q in enumerate(self.QUESTIONS)
+    ]
+
+    log = Queries.MoodLog.save_today_log(score=score, notes=notes)
+    print(f"[NewLog] saved id={log.id} score={log.score} at={log.logged_at}")
