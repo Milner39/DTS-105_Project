@@ -2,7 +2,7 @@ import customtkinter as ctk
 from . import Layout
 from .. import type_defs as GuiTypes
 from ..stores.NavigationStore import navigation_store
-from ..theme import Colors
+from ..theme import Colors, Sizes
 from .WithSidebarLayout import WithSidebarLayout
 from ..views.RouterView import RouterView
 from ...assets import AssetUtils
@@ -43,9 +43,11 @@ class RootLayout(Layout):
 
 
     # Pin logo bottom left
-    logo = AssetUtils.ctk_icon("moodminder-logo", 40)
+    logo_spacing = Sizes.Spacing.xs
+    logo_size = Sizes.Dimension.md - (2*logo_spacing)
+    logo = AssetUtils.ctk_icon("moodminder-logo", logo_size)
     logo_label = ctk.CTkLabel(self, text="", image=logo)
-    logo_label.place(relx=0, rely=1, x=4, y=-4, anchor="sw")
+    logo_label.place(relx=0, rely=1, x=logo_spacing, y=-logo_spacing, anchor="sw")
 
 
     router_view = sidebar_layout.set_content(RouterView)

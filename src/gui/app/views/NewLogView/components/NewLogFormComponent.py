@@ -1,10 +1,9 @@
 from datetime import date
 from typing import Any
-import customtkinter as ctk
 from ....components.FormComponent import FormComponent
 from ....components.FormComponent.inputs import MoodScoreInput, TextAreaInput
 from ....components.TextBoxComponent import TextBoxComponent
-from ....theme import Colors
+from ....theme import Colors, Fonts
 from ......database import Queries
 from ......database.models.MoodLogModel import MoodLogNotesT
 from .... import type_defs as GuiTypes
@@ -36,10 +35,10 @@ class NewLogFormComponent(FormComponent):
     today = date.today()
     date_text = f"{today.strftime('%A, %B')} {today.day}, {today.year}"
     date_box = TextBoxComponent(self)
-    date_box.pack(fill="x", padx=22, pady=(28, 4))
+    date_box.pack(fill="x")
     date_box.add_label(
       date_text,
-      font=ctk.CTkFont(size=12),
+      font=Fonts.Body.md(),
       text_color=Colors.Grayscale.neutral_500,
     )
 

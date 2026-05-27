@@ -4,6 +4,7 @@ from ..components.TextBoxComponent import TextBoxComponent
 from ..layouts.WithViewTitleLayout import WithViewTitleLayout
 from .. import type_defs as GuiTypes
 from ...assets import AssetUtils
+from ..theme import Fonts, Sizes
 
 
 
@@ -21,12 +22,15 @@ class DashboardView(FragmentComponent):
 
 
     center = FragmentComponent(content)
-    center.pack(expand=True, fill="x")
+    center.pack(expand=True, fill="x",
+      padx=Sizes.Spacing.md, pady=Sizes.Spacing.md
+    )
 
     text_box = TextBoxComponent(center)
-    text_box.pack(fill="x", padx=16)
-    text_box.add_label("Welcome to MoodMinder", font=ctk.CTkFont(size=20, weight="bold"))
-    text_box.add_label("Track your mood and wellbeing, one log at a time.", font=ctk.CTkFont(size=16))
+    text_box.pack(fill="x")
+    text_box.add_label("Welcome to MoodMinder", font=Fonts.Heading.sm())
+    text_box.add_label("Track your mood and wellbeing, one log at a time.", font=Fonts.Body.lg())
 
-    logo_label = ctk.CTkLabel(center, text="", image=AssetUtils.ctk_icon("moodminder-logo", 128))
-    logo_label.pack(padx=16, pady=16)
+    logo = AssetUtils.ctk_icon("moodminder-logo", Sizes.Dimension.xxl)
+    logo_label = ctk.CTkLabel(center, text="", image=logo)
+    logo_label.pack()

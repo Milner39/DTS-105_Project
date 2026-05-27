@@ -1,8 +1,6 @@
-import customtkinter as ctk
 from ..components.FragmentComponent import FragmentComponent
 from ..layouts.WithViewTitleLayout import WithViewTitleLayout
 from .. import type_defs as GuiTypes
-from ...assets import AssetUtils
 
 
 
@@ -15,5 +13,5 @@ class CalendarView(FragmentComponent):
     self.grid_columnconfigure(0, weight=1)
 
 
-    view_title_layout = WithViewTitleLayout(self, "Log Calender")
+    view_title_layout = WithViewTitleLayout(self, "Log Calendar")
     content = view_title_layout.set_content(FragmentComponent)

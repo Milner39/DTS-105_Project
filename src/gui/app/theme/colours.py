@@ -1,4 +1,4 @@
-from .type_defs import CTkColorT
+from ..type_defs import CTkColorT
 
 # Light / Dark variants use HSL colour space and have their lightness +/- by 10%
 # Transparent variants are pre-blended against a white background at 20% opacity
