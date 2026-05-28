@@ -34,6 +34,7 @@ class CardComponent(FragmentComponent):
 
     # Run on resize function when card content or parent resizes
     master.bind("<Configure>", self._on_resize, add=True)
+    self.scrollable.content.bind("<Configure>", self._on_resize, add=True)
     self.after_idle(self._on_resize)
 
 
