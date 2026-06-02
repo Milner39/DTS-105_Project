@@ -18,7 +18,7 @@ class TextAreaInput(FormInput):
   ):
     super().__init__(master)
 
-    label_box = TextBoxComponent(self)
+    label_box = TextBoxComponent(self._content)
     label_box.pack(fill="x")
     label_box.add_label(text=label,
       font=Fonts.Body.md(),
@@ -33,7 +33,7 @@ class TextAreaInput(FormInput):
     height = (lines * textbox_font.metrics("linespace")) + (2 * Sizes.Border.md)
 
     self._textbox = ctk.CTkTextbox(
-      self,
+      self._content,
       height=height,
       fg_color=Colors.Surface.background,
       border_color=Colors.Surface.border,
@@ -46,6 +46,8 @@ class TextAreaInput(FormInput):
 
     if initial_value:
       self._textbox.insert("1.0", initial_value)
+
+    self._textbox.bind("<KeyRelease>", lambda _e: self._on_value_change())
 
 
 

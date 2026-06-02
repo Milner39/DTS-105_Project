@@ -55,22 +55,25 @@ class NewLogFormComponent(FormComponent):
 
     # Add the form inputs
     self.add_heading("How are you feeling today?")
-    self.add_input("score", MoodScoreInput(self, initial_score=initial_score))
+    self.add_input("score", MoodScoreInput(self, initial_score=initial_score),
+      # Not `None`
+      validators=[lambda v: "Please select a mood score" if v is None else None],
+    )
     self.add_section_heading("A couple of questions…")
     for i, q in enumerate(self._notes):
       self.add_input(f"q{i}", TextAreaInput(self,
         label=q["question"],
         initial_value=q["answer"],
-      ))
+      ),
+        # Not only whitespace
+        validators=[lambda v: "This field is required" if not v.strip() else None],
+      )
     self.add_submit_button("Update Log" if log is not None else "Save Log")
 
 
 
   def _on_submit(self, values: dict[str, Any]) -> None:
     score = values["score"]
-    if score is None:
-      print("[NewLog] no score selected, ignoring submit")
-      return
 
     notes: MoodLogNotesT = [
       {**q, "answer": values[f"q{i}"]} for i, q in enumerate(self._notes)

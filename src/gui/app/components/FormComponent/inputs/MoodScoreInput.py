@@ -51,17 +51,17 @@ class MoodScoreInput(FormInput):
       tile_column = tile_index * 2
 
       # Tile column: equal width with the other tile columns due to the `uniform` arg.
-      self.grid_columnconfigure(tile_column, weight=1, uniform="tile")
+      self._content.grid_columnconfigure(tile_column, weight=1, uniform="tile")
 
       # Spacer column between this tile and the previous one (skip for first).
       if tile_index > 0:
-        self.grid_columnconfigure(tile_column - 1,
+        self._content.grid_columnconfigure(tile_column - 1,
           weight=0, minsize=Sizes.Spacing.sm
         )
 
 
       # Create the widgets for the tile
-      tile = FragmentComponent(self,
+      tile = FragmentComponent(self._content,
         border_width=Sizes.Border.sm,
         border_color=Colors.Surface.border,
       )
@@ -102,10 +102,12 @@ class MoodScoreInput(FormInput):
     """
       - Set score
       - Restyle tiles
+      - Clear validation error
       - Notify listener
     """
     self._score = score
     self._restyle()
+    self._on_value_change()
     if self._on_change is not None: self._on_change(score)
 
 
