@@ -25,6 +25,7 @@ class MoodScoreInput(FormInput):
     self,
     master: GuiTypes.CTkMasterT,
     on_change: Callable[[int], Any] | None = None,
+    initial_score: int | None = None,
   ):
     super().__init__(master)
 
@@ -35,6 +36,10 @@ class MoodScoreInput(FormInput):
     self._tiles: list[dict] = []
 
     self._create_tiles()
+
+    if initial_score is not None:
+      self._score = initial_score
+      self._restyle()
 
 
 

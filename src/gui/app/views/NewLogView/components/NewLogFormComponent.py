@@ -3,9 +3,10 @@ from typing import Any
 from ....components.FormComponent import FormComponent
 from ....components.FormComponent.inputs import MoodScoreInput, TextAreaInput
 from ....components.TextBoxComponent import TextBoxComponent
+from ....stores.NavigationStore import navigation_store
 from ....theme import Colors, Fonts
 from ......database import Queries
-from ......database.models.MoodLogModel import MoodLogNotesT
+from ......database.models.MoodLogModel import MoodLogNotesT, MoodLogReadT
 from .... import type_defs as GuiTypes
 
 
@@ -28,8 +29,18 @@ class NewLogFormComponent(FormComponent):
   ]
 
 
-  def __init__(self, master: GuiTypes.CTkMasterT):
+  def __init__(
+    self,
+    master: GuiTypes.CTkMasterT,
+    log: MoodLogReadT | None = None,
+  ):
     super().__init__(master, on_submit=self._on_submit)
+
+    # When a log exists, drive the form from its stored notes/score so the
+    # user is editing what they previously saved rather than overwriting
+    # with the preset questions.
+    self._notes: MoodLogNotesT = log["notes"] if log is not None else self.QUESTIONS
+    initial_score: int | None = log["score"] if log is not None else None
 
     # Add today's date above the form heading
     today = date.today()
@@ -44,11 +55,14 @@ class NewLogFormComponent(FormComponent):
 
     # Add the form inputs
     self.add_heading("How are you feeling today?")
-    self.add_input("score", MoodScoreInput(self))
+    self.add_input("score", MoodScoreInput(self, initial_score=initial_score))
     self.add_section_heading("A couple of questions…")
-    for i, q in enumerate(self.QUESTIONS):
-      self.add_input(f"q{i}", TextAreaInput(self, label=q["question"]))
-    self.add_submit_button("Save Entry")
+    for i, q in enumerate(self._notes):
+      self.add_input(f"q{i}", TextAreaInput(self,
+        label=q["question"],
+        initial_value=q["answer"],
+      ))
+    self.add_submit_button("Update Log" if log is not None else "Save Log")
 
 
 
@@ -59,8 +73,12 @@ class NewLogFormComponent(FormComponent):
       return
 
     notes: MoodLogNotesT = [
-      {**q, "answer": values[f"q{i}"]} for i, q in enumerate(self.QUESTIONS)
+      {**q, "answer": values[f"q{i}"]} for i, q in enumerate(self._notes)
     ]
 
-    log = Queries.MoodLog.save_today_log(score=score, notes=notes)
-    print(f"[NewLog] saved id={log.id} score={log.score} at={log.logged_at}")
+    log = Queries.MoodLog.save_today_log({"score": score, "notes": notes})
+    print(f"[NewLog] saved id={log['id']} score={log['score']} at={log['logged_at']}")
+
+    # Re-navigate so the view rebuilds with the new saved log
+    # (title becomes "Edit Log", button becomes "Update Log").
+    navigation_store.navigate("new-log")
