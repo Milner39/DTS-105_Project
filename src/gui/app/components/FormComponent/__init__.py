@@ -56,13 +56,22 @@ class FormComponent(FragmentComponent):
 
 
 
-  def add_input(self, name: str, field: FormInput) -> FormInput:
+  def add_input(
+    self,
+    name: str,
+    field: FormInput,
+    validators: list[Callable[[Any], str | None]] | None = None,
+  ) -> FormInput:
     """
     | Register an input as `name`.
-    | It's value is collected on submit and provided in the `on_submit` 
+    | It's value is collected on submit and provided in the `on_submit`
       callback's dict under `name`.
+    | Optional `validators` are added to the input. On submit: each returns
+      either an error message string or `None` if the value is valid.
     """
     self._inputs[name] = field
+    if validators is not None:
+      for v in validators: field.add_validator(v)
     field.pack(fill="x",
       pady=(Sizes.Spacing.sm, Sizes.Spacing.none)
     )
@@ -90,5 +99,11 @@ class FormComponent(FragmentComponent):
 
 
   def _submit(self) -> None:
+    # Run every input's validators and show errors in the UI.
+    errors = {name: input.validate() for name, input in self._inputs.items()}
+    for name, input in self._inputs.items():
+      input.show_error(errors[name])
+    if any(err is not None for err in errors.values()): return
+
     values = {name: input.get_value() for name, input in self._inputs.items()}
     if self._on_submit is not None: self._on_submit(values)

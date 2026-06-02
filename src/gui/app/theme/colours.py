@@ -31,8 +31,14 @@ class _Surface:
 
 
 
+class _Semantic:
+  error:  CTkColorT = "#E84A4A"
+
+
+
 class Colors:
   """Single source of truth for every colour used in the GUI."""
   Brand     = _Brand
   Grayscale = _Grayscale
   Surface   = _Surface
+  Semantic  = _Semantic
