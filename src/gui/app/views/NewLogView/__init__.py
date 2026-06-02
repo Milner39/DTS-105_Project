@@ -30,7 +30,9 @@ class NewLogView(FragmentComponent):
     # 3x3 grid centres the card horizontally and vertically.
     # grid let's us use `minsize` (can't with `pack`)
     center.grid_columnconfigure(0, weight=1)
-    center.grid_columnconfigure(1, weight=0, minsize=self.CARD_MAX_WIDTH)
+    center.grid_columnconfigure(1, weight=0,
+      minsize=center._apply_widget_scaling(self.CARD_MAX_WIDTH)
+    )
     center.grid_columnconfigure(2, weight=1)
     center.grid_rowconfigure(0, weight=1)
     center.grid_rowconfigure(1, weight=0)
@@ -58,6 +60,7 @@ class NewLogView(FragmentComponent):
     """
 
     available_w = self._center.winfo_width()
+    max_w = self._center._apply_widget_scaling(self.CARD_MAX_WIDTH)
     self._center.grid_columnconfigure(1,
-      minsize=min(self.CARD_MAX_WIDTH, max(0, available_w))
+      minsize=min(max_w, max(0, available_w))
     )
