@@ -1,5 +1,5 @@
 from .. import type_defs as GuiTypes
-from ..theme import Colors
+from ..theme import Colors, Sizes
 from .FragmentComponent import FragmentComponent
 from .ScrollableComponent import ScrollableComponent
 
@@ -17,22 +17,24 @@ class CardComponent(FragmentComponent):
   """
 
   def __init__(self, master: GuiTypes.CTkMasterT):
-    super().__init__(master)
 
-    self.PADDING: int = 24
-
-
-    self.content = ScrollableComponent(
-      self,
-      corner_radius=6,
-      border_width=1,
-      border_color=Colors.Surface.border,
+    super().__init__(master,
+      border_color=Colors.Grayscale.neutral_700,
+      border_width=Sizes.Border.md,
+      corner_radius=Sizes.Radius.lg
     )
-    self.content.pack(fill="x", padx=self.PADDING, pady=self.PADDING)
+
+    # Force height to be controlled by `height` property
+    self.pack_propagate(False)
+
+
+    self.scrollable = ScrollableComponent(self)
+    self.content = self.scrollable.content
 
 
     # Run on resize function when card content or parent resizes
     master.bind("<Configure>", self._on_resize, add=True)
+    self.scrollable.content.bind("<Configure>", self._on_resize, add=True)
     self.after_idle(self._on_resize)
 
 
@@ -44,7 +46,9 @@ class CardComponent(FragmentComponent):
       - The height of the card's content
     """
 
-    self.content.update_idletasks()
-    content_h = self.content.winfo_reqheight()
-    available_h = max(0, self.master.winfo_height() - (2 * self.PADDING))
-    self.content.configure(height=min(content_h, available_h))
+    self.scrollable.update_idletasks()
+    desired_height = self.scrollable.natural_bordered_height
+    available_height = max(0, self.master.winfo_height())
+    self.configure(height=self._reverse_widget_scaling(
+      min(desired_height, available_height)
+    ))

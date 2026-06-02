@@ -1,7 +1,8 @@
 import customtkinter as ctk
 from .config import Config
-from ..assets import AssetUtils as AssetUtils
-from .stores.NavigationStore import navigation_store as navigation_store
+from ..assets import AssetUtils
+from ...database import DatabaseUtils
+from .stores.NavigationStore import navigation_store
 from .views.RootView import RootView
 
 
@@ -29,6 +30,7 @@ class Gui():
       into PNGs if the PNG file does not already exist or is outdated.
     """
 
+    DatabaseUtils.prepare_database()
     AssetUtils.prepare_assets()
 
 

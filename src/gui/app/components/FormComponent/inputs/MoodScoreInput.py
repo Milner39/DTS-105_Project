@@ -4,7 +4,7 @@ from .FormInput import FormInput
 from typing import Any
 from collections.abc import Callable
 from .... import type_defs as GuiTypes
-from ....theme import Colors
+from ....theme import Colors, Fonts, Sizes
 
 
 
@@ -25,6 +25,7 @@ class MoodScoreInput(FormInput):
     self,
     master: GuiTypes.CTkMasterT,
     on_change: Callable[[int], Any] | None = None,
+    initial_score: int | None = None,
   ):
     super().__init__(master)
 
@@ -36,6 +37,10 @@ class MoodScoreInput(FormInput):
 
     self._create_tiles()
 
+    if initial_score is not None:
+      self._score = initial_score
+      self._restyle()
+
 
 
   def _create_tiles(self) -> None:
@@ -43,36 +48,46 @@ class MoodScoreInput(FormInput):
 
     for tile_index in range(len(self.LABELS)):
       tile_num = tile_index+1
+      tile_column = tile_index * 2
 
-      # Create a column, columns are forced to be equal width by the `uniform` arg
-      self.grid_columnconfigure(tile_index, weight=1, uniform="score")
+      # Tile column: equal width with the other tile columns due to the `uniform` arg.
+      self.grid_columnconfigure(tile_column, weight=1, uniform="tile")
+
+      # Spacer column between this tile and the previous one (skip for first).
+      if tile_index > 0:
+        self.grid_columnconfigure(tile_column - 1,
+          weight=0, minsize=Sizes.Spacing.sm
+        )
+
 
       # Create the widgets for the tile
       tile = FragmentComponent(self,
-        corner_radius=8,
-        border_width=1,
+        border_width=Sizes.Border.sm,
         border_color=Colors.Surface.border,
-        height=72,
       )
-      tile.grid(row=0, column=tile_index, padx=4, sticky="nsew")
-      tile.grid_propagate(False)
-      tile.grid_rowconfigure(0, weight=1)
+      tile.grid(row=0, column=tile_column, sticky="ew")
+      tile.grid_rowconfigure(0, weight=0)
       tile.grid_rowconfigure(1, weight=0)
       tile.grid_columnconfigure(0, weight=1)
 
       number = ctk.CTkLabel(tile,
         text=str(tile_num),
-        font=ctk.CTkFont(size=26, weight="bold"),
+        font=Fonts.Heading.xl(),
         text_color=Colors.Grayscale.neutral_300,
       )
-      number.grid(row=0, column=0, sticky="s")
+      number.grid(row=0, column=0,
+        pady=(Sizes.Spacing.sm, Sizes.Spacing.none)
+      )
 
       label = ctk.CTkLabel(tile,
         text=self.LABELS[tile_index],
-        font=ctk.CTkFont(size=10),
+        font=Fonts.Body.sm(),
         text_color=Colors.Grayscale.neutral_300,
       )
-      label.grid(row=1, column=0, pady=(2, 8))
+      label.grid(row=1, column=0,
+        pady=(Sizes.Spacing.none, Sizes.Spacing.sm)
+      )
+
 
       # Bind a click event listener to tile
       on_click = lambda _e, score=tile_num: self._select(score)
@@ -105,7 +120,7 @@ class MoodScoreInput(FormInput):
       if is_selected:
         # Highlight the selected tile
         parts["tile"].configure(
-          border_width=2,
+          border_width=Sizes.Border.md,
           border_color=Colors.Brand.secondary,
           fg_color=Colors.Brand.secondary__transparent,
         )
@@ -114,7 +129,7 @@ class MoodScoreInput(FormInput):
       else:
         # Reset every other tile to the default appearance
         parts["tile"].configure(
-          border_width=1,
+          border_width=Sizes.Border.sm,
           border_color=Colors.Surface.border,
           fg_color="transparent",
         )

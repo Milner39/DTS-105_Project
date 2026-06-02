@@ -2,7 +2,7 @@ import customtkinter as ctk
 from .FormInput import FormInput
 from ...TextBoxComponent import TextBoxComponent
 from .... import type_defs as GuiTypes
-from ....theme import Colors
+from ....theme import Colors, Fonts, Sizes
 
 
 
@@ -13,31 +13,39 @@ class TextAreaInput(FormInput):
     self,
     master: GuiTypes.CTkMasterT,
     label: str,
-    height: int = 54,
+    lines: int = 5,
+    initial_value: str = "",
   ):
     super().__init__(master)
 
     label_box = TextBoxComponent(self)
-    label_box.pack(fill="x", pady=(0, 5))
-    label_box.add_label(
-      label,
-      font=ctk.CTkFont(size=13),
+    label_box.pack(fill="x")
+    label_box.add_label(text=label,
+      font=Fonts.Body.md(),
       text_color=Colors.Grayscale.neutral_300,
       justify="left",
       anchor="w",
     )
 
+
+    # Calculate height of textbox
+    textbox_font = Fonts.Body.md()
+    height = (lines * textbox_font.metrics("linespace")) + (2 * Sizes.Border.md)
+
     self._textbox = ctk.CTkTextbox(
       self,
       height=height,
-      corner_radius=4,
-      border_width=1,
-      border_color=Colors.Surface.border,
       fg_color=Colors.Surface.background,
-      font=ctk.CTkFont(size=12),
+      border_color=Colors.Surface.border,
+      border_width=Sizes.Border.md,
+      corner_radius=Sizes.Radius.sm,
+      font=textbox_font,
       wrap="word",
     )
     self._textbox.pack(fill="x")
+
+    if initial_value:
+      self._textbox.insert("1.0", initial_value)
 
 
 

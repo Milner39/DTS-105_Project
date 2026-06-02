@@ -1,8 +1,11 @@
+from datetime import date
 from ...components.CardComponent import CardComponent
 from ...components.FragmentComponent import FragmentComponent
 from ...layouts.WithViewTitleLayout import WithViewTitleLayout
 from .components.NewLogFormComponent import NewLogFormComponent
 from ... import type_defs as GuiTypes
+from ...theme import Sizes
+from .....database import Queries
 
 
 
@@ -14,30 +17,42 @@ class NewLogView(FragmentComponent):
     self.grid_rowconfigure(0, weight=1)
     self.grid_columnconfigure(0, weight=1)
 
-    self.CARD_MAX_WIDTH: int = 520
+    self.CARD_MAX_WIDTH: int = 512
 
 
-    view_title_layout = WithViewTitleLayout(self, "New Log")
+    today_log = Queries.MoodLog.get_log_by_day(date.today())
+    title = "Edit Log" if today_log is not None else "New Log"
+
+    view_title_layout = WithViewTitleLayout(self, title)
     content = view_title_layout.set_content(FragmentComponent)
 
 
+    center = FragmentComponent(content)
+    center.pack(expand=True, fill="both",
+      padx=Sizes.Spacing.md, pady=Sizes.Spacing.md,
+    )
+
     # 3x3 grid centres the card horizontally and vertically.
-    content.grid_columnconfigure(0, weight=1)
-    content.grid_columnconfigure(1, weight=0, minsize=self.CARD_MAX_WIDTH)
-    content.grid_columnconfigure(2, weight=1)
-    content.grid_rowconfigure(0, weight=1)
-    content.grid_rowconfigure(1, weight=0)
-    content.grid_rowconfigure(2, weight=1)
+    # grid let's us use `minsize` (can't with `pack`)
+    center.grid_columnconfigure(0, weight=1)
+    center.grid_columnconfigure(1, weight=0,
+      minsize=center._apply_widget_scaling(self.CARD_MAX_WIDTH)
+    )
+    center.grid_columnconfigure(2, weight=1)
+    center.grid_rowconfigure(0, weight=1)
+    center.grid_rowconfigure(1, weight=0)
+    center.grid_rowconfigure(2, weight=1)
+  
+    center.bind("<Configure>", self._on_resize)
+    center.after_idle(self._on_resize)
 
-    self._content = content
-    content.bind("<Configure>", self._on_resize)
-    content.after_idle(self._on_resize)
+    self._center = center
 
 
-    card = CardComponent(content)
+    card = CardComponent(center)
     card.grid(row=1, column=1, sticky="ew")
 
-    form = NewLogFormComponent(card.content)
+    form = NewLogFormComponent(card.content, log=today_log)
     form.pack(fill="x")
 
 
@@ -49,7 +64,8 @@ class NewLogView(FragmentComponent):
       - CARD_MAX_WIDTH
     """
 
-    available_w = self._content.winfo_width()
-    self._content.grid_columnconfigure(1,
-      minsize=min(self.CARD_MAX_WIDTH, max(0, available_w))
+    available_w = self._center.winfo_width()
+    max_w = self._center._apply_widget_scaling(self.CARD_MAX_WIDTH)
+    self._center.grid_columnconfigure(1,
+      minsize=min(max_w, max(0, available_w))
     )

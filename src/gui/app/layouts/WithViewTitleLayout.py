@@ -2,6 +2,7 @@ import customtkinter as ctk
 from . import Layout
 from ..components.FragmentComponent import FragmentComponent
 from .. import type_defs as GuiTypes
+from ..theme import Fonts, Sizes
 
 
 
@@ -21,17 +22,18 @@ class WithViewTitleLayout(Layout):
     self.grid_rowconfigure(1, weight=1)
 
 
-    title_area = FragmentComponent(self)
-    title_area.grid(row=0, column=0, sticky="ew")
+    title_area = FragmentComponent(self, height=Sizes.Dimension.md)
+    title_area.grid_propagate(False)
+    title_area.grid(row=0, column=0, sticky="nsew")
     title_area.grid_rowconfigure(0, weight=1)
     title_area.grid_columnconfigure(0, weight=1)
     self._title_area = title_area
 
     title = ctk.CTkLabel(title_area,
       text=title_text,
-      font=ctk.CTkFont(size=24, weight="bold")
+      font=Fonts.Heading.lg(),
     )
-    title.pack(padx=8, pady=8)
+    title.grid(row=0, column=0)
     self.title = title
 
 
