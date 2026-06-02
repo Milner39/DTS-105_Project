@@ -49,4 +49,6 @@ class CardComponent(FragmentComponent):
     self.scrollable.update_idletasks()
     desired_height = self.scrollable.natural_bordered_height
     available_height = max(0, self.master.winfo_height())
-    self.configure(height=min(desired_height, available_height))
+    self.configure(height=self._reverse_widget_scaling(
+      min(desired_height, available_height)
+    ))
