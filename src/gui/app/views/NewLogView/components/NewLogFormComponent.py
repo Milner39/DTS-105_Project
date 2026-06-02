@@ -38,37 +38,3 @@ class NewLogFormComponent(FormComponent):
 
   def _on_submit(self, values: dict[str, Any]) -> None:
     print(f"[NewLog] score={values['score']} q1={values['q1']!r} q2={values['q2']!r}")
-
-  # Input validation
-  def validate_inputs(self, values: dict[str, Any]) -> bool:
-    score = values.get("score")
-    q1 = values.get("q1", "").strip()
-    q2 = values.get("q2", "").strip()
-
-    is_valid = True
-
-    # Error message for no score inputted
-    if score is None:
-      self.error_message(
-        "score",
-        "Please select a mood score between 1 and 5.",
-      )
-      is_valid = False
-
-    # Error message for no answer to question 1
-    if q1 == "":
-      self.error_message(
-        "q1",
-        "Please describe what made you feel this way.",
-      )
-      is_valid = False
-
-    # Error message for no answer to question 2
-    if q2 == "":
-      self.error_message(
-        "q2",
-        "Please describe any physical symptoms you are experiencing.",
-      )
-      is_valid = False
-
-    return is_valid

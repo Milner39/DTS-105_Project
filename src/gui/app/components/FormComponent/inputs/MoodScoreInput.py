@@ -33,8 +33,6 @@ class MoodScoreInput(FormInput):
     self._on_change = on_change
     self._score: int | None = None
     self._tiles: list[dict] = []
-    self._content = FragmentComponent(self)
-    self._content.pack(fill="x")
 
     self._create_tiles()
 
@@ -47,10 +45,10 @@ class MoodScoreInput(FormInput):
       tile_num = tile_index+1
 
       # Create a column, columns are forced to be equal width by the `uniform` arg
-      self._content.grid_columnconfigure(tile_index, weight=1, uniform="score")
+      self.grid_columnconfigure(tile_index, weight=1, uniform="score")
 
       # Create the widgets for the tile
-      tile = FragmentComponent(self._content,
+      tile = FragmentComponent(self,
         corner_radius=8,
         border_width=1,
         border_color=Colors.Surface.border,
