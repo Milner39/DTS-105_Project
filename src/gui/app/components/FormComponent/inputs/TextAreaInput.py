@@ -14,6 +14,7 @@ class TextAreaInput(FormInput):
     master: GuiTypes.CTkMasterT,
     label: str,
     lines: int = 5,
+    initial_value: str = "",
   ):
     super().__init__(master)
 
@@ -42,6 +43,9 @@ class TextAreaInput(FormInput):
       wrap="word",
     )
     self._textbox.pack(fill="x")
+
+    if initial_value:
+      self._textbox.insert("1.0", initial_value)
 
 
 
