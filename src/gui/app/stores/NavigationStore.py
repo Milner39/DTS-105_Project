@@ -1,5 +1,4 @@
 from . import Store
-from ..router import router
 from dataclasses import dataclass, field
 
 
@@ -25,6 +24,10 @@ class NavigationStore(Store[NavigationState]):
 
   def get_views(self):
     """Get the corresponding views for the current route."""
+    # Lazy import: the router module imports every view class, and any view
+    # in the tree that wants to call `navigation_store.navigate(...)` would
+    # otherwise create a circular import at module-load time.
+    from ..router import router
     return router.resolve_route(self.get_state().current_route)
 
 

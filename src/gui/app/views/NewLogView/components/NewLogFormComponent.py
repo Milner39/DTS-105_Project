@@ -3,6 +3,7 @@ from typing import Any
 from ....components.FormComponent import FormComponent
 from ....components.FormComponent.inputs import MoodScoreInput, TextAreaInput
 from ....components.TextBoxComponent import TextBoxComponent
+from ....stores.NavigationStore import navigation_store
 from ....theme import Colors, Fonts
 from ......database import Queries
 from ......database.models.MoodLogModel import MoodLogNotesT, MoodLogReadT
@@ -77,3 +78,7 @@ class NewLogFormComponent(FormComponent):
 
     log = Queries.MoodLog.save_today_log({"score": score, "notes": notes})
     print(f"[NewLog] saved id={log['id']} score={log['score']} at={log['logged_at']}")
+
+    # Re-navigate so the view rebuilds with the new saved log
+    # (title becomes "Edit Log", button becomes "Update Log").
+    navigation_store.navigate("new-log")
