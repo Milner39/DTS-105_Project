@@ -5,7 +5,7 @@ from ....components.FormComponent.inputs import MoodScoreInput, TextAreaInput
 from ....components.TextBoxComponent import TextBoxComponent
 from ....theme import Colors, Fonts
 from ......database import Queries
-from ......database.models.MoodLogModel import MoodLogModel, MoodLogNotesT
+from ......database.models.MoodLogModel import MoodLogNotesT, MoodLogReadT
 from .... import type_defs as GuiTypes
 
 
@@ -31,15 +31,15 @@ class NewLogFormComponent(FormComponent):
   def __init__(
     self,
     master: GuiTypes.CTkMasterT,
-    log: MoodLogModel | None = None,
+    log: MoodLogReadT | None = None,
   ):
     super().__init__(master, on_submit=self._on_submit)
 
     # When a log exists, drive the form from its stored notes/score so the
     # user is editing what they previously saved rather than overwriting
     # with the preset questions.
-    self._notes: MoodLogNotesT = log.notes if log is not None else self.QUESTIONS
-    initial_score: int | None = log.score if log is not None else None
+    self._notes: MoodLogNotesT = log["notes"] if log is not None else self.QUESTIONS
+    initial_score: int | None = log["score"] if log is not None else None
 
     # Add today's date above the form heading
     today = date.today()
@@ -75,5 +75,5 @@ class NewLogFormComponent(FormComponent):
       {**q, "answer": values[f"q{i}"]} for i, q in enumerate(self._notes)
     ]
 
-    log = Queries.MoodLog.save_today_log(score=score, notes=notes)
-    print(f"[NewLog] saved id={log.id} score={log.score} at={log.logged_at}")
+    log = Queries.MoodLog.save_today_log({"score": score, "notes": notes})
+    print(f"[NewLog] saved id={log['id']} score={log['score']} at={log['logged_at']}")
