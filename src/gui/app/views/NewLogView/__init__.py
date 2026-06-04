@@ -1,7 +1,7 @@
-from datetime import date
 from ...components.CardComponent import CardComponent
 from ...components.FragmentComponent import FragmentComponent
 from ...layouts.WithViewTitleLayout import WithViewTitleLayout
+from ...stores.LogEditorStore import log_editor_store
 from .components.NewLogFormComponent import NewLogFormComponent
 from ... import type_defs as GuiTypes
 from ...theme import Sizes
@@ -17,11 +17,13 @@ class NewLogView(FragmentComponent):
     self.grid_rowconfigure(0, weight=1)
     self.grid_columnconfigure(0, weight=1)
 
-    self.CARD_MAX_WIDTH: int = 512
+    self.CARD_MAX_WIDTH = Sizes.Dimension.xxl * 4
 
 
-    today_log = Queries.MoodLog.get_log_by_day(date.today())
-    title = "Edit Log" if today_log is not None else "New Log"
+    # The day to edit is stored in the store. Find if log exists for target day.
+    target_date = log_editor_store.get_state().target_date
+    log = Queries.MoodLog.get_log_by_day(target_date)
+    title = "Edit Log" if log is not None else "New Log"
 
     view_title_layout = WithViewTitleLayout(self, title)
     content = view_title_layout.set_content(FragmentComponent)
@@ -52,7 +54,7 @@ class NewLogView(FragmentComponent):
     card = CardComponent(center)
     card.grid(row=1, column=1, sticky="ew")
 
-    form = NewLogFormComponent(card.content, log=today_log)
+    form = NewLogFormComponent(card.content, log=log, target_date=target_date)
     form.pack(fill="x")
 
 

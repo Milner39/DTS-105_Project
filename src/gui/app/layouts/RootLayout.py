@@ -1,7 +1,9 @@
 import customtkinter as ctk
+from datetime import date
 from . import Layout
 from .. import type_defs as GuiTypes
 from ..stores.NavigationStore import navigation_store
+from ..stores.LogEditorStore import log_editor_store
 from ..theme import Colors, Sizes
 from .WithSidebarLayout import WithSidebarLayout
 from ..views.RouterView import RouterView
@@ -31,7 +33,7 @@ class RootLayout(Layout):
       )),
       ("new-log", sidebar_layout.sidebar.add_button(
         icon="notepad",
-        command=lambda: navigation_store.navigate("new-log"),
+        command=self._open_new_log,
       )),
       ("calendar", sidebar_layout.sidebar.add_button(
         icon="calendar-dots",
@@ -63,6 +65,12 @@ class RootLayout(Layout):
     content.grid(row=0, column=0, sticky="nsew")
 
     return content
+
+
+  def _open_new_log(self):
+    # The sidebar "New Log" button always means today, so set the date in the store.
+    log_editor_store.set_target(date.today())
+    navigation_store.navigate("new-log")
 
 
   def _on_navigation_update(self, *args):

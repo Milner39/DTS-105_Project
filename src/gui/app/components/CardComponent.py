@@ -10,8 +10,8 @@ class CardComponent(FragmentComponent):
   | A bordered, scrollable card.
   |
   | Width is controlled by the parent (e.g. via a fixed-width grid column).
-  | Height grows with content, capped at the parent's available space — the
-    body scrolls when content exceeds that cap.
+  | Height grows with content, capped at the parent's available space.
+  | The body scrolls when content exceeds that cap.
   |
   | Add content by using `card.content` as the master.
   """

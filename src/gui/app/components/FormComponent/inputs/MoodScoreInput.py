@@ -5,24 +5,14 @@ from typing import Any
 from collections.abc import Callable
 from .... import type_defs as GuiTypes
 from ....theme import Colors, Fonts, Sizes
-
-
-
-def bind_tree(widget: GuiTypes.CTkFrameT, sequence: str, callback: Callable):
-  """Bind an event listener to the widget AND all it's children recursively."""
-
-  widget.bind(sequence, callback, add=True)
-
-  for child in widget.winfo_children():
-    bind_tree(child, sequence, callback)
+from ....helpers import bind_tree
 
 
 
 class MoodScoreInput(FormInput):
   """Row of 5 selectable tiles (1-5) for picking a mood score."""
 
-  def __init__(
-    self,
+  def __init__(self,
     master: GuiTypes.CTkMasterT,
     on_change: Callable[[int], Any] | None = None,
     initial_score: int | None = None,

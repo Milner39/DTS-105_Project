@@ -29,22 +29,25 @@ class NewLogFormComponent(FormComponent):
   ]
 
 
-  def __init__(
-    self,
+  def __init__(self,
     master: GuiTypes.CTkMasterT,
     log: MoodLogReadT | None = None,
+    target_date: date | None = None,
   ):
     super().__init__(master, on_submit=self._on_submit)
+
+    # Allows access to existing log values
+    self._log = log
 
     # When a log exists, drive the form from its stored notes/score so the
     # user is editing what they previously saved rather than overwriting
     # with the preset questions.
-    self._notes: MoodLogNotesT = log["notes"] if log is not None else self.QUESTIONS
-    initial_score: int | None = log["score"] if log is not None else None
+    self._notes: MoodLogNotesT = self._log["notes"] if self._log is not None else self.QUESTIONS
+    initial_score: int | None = self._log["score"] if self._log is not None else None
 
-    # Add today's date above the form heading
-    today = date.today()
-    date_text = f"{today.strftime('%A, %B')} {today.day}, {today.year}"
+    # Add the log's date above the form heading
+    target = target_date if target_date is not None else date.today()
+    date_text = f"{target.strftime('%A, %B')} {target.day}, {target.year}"
     date_box = TextBoxComponent(self)
     date_box.pack(fill="x")
     date_box.add_label(
@@ -79,9 +82,18 @@ class NewLogFormComponent(FormComponent):
       {**q, "answer": values[f"q{i}"]} for i, q in enumerate(self._notes)
     ]
 
-    log = Queries.MoodLog.save_today_log({"score": score, "notes": notes})
-    print(f"[NewLog] saved id={log['id']} score={log['score']} at={log['logged_at']}")
+    if self._log is not None:
+      # Editing an existing day's log: update.
+      log = Queries.MoodLog.update_log(self._log["id"],
+        {"score": score, "notes": notes}
+      )
+    else:
+      # No existing log: created.
+      log = Queries.MoodLog.save_today_log({"score": score, "notes": notes})
 
-    # Re-navigate so the view rebuilds with the new saved log
+    if log is not None:
+      print(f"[NewLog] saved id={log['id']} score={log['score']} at={log['logged_at']}")
+
+    # Re-navigate so the view rebuilds with the saved log
     # (title becomes "Edit Log", button becomes "Update Log").
     navigation_store.navigate("new-log")
