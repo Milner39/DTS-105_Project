@@ -56,7 +56,7 @@ class MonthStatsComponent(FragmentComponent):
 
     # Create the chart title
     ctk.CTkLabel(self,
-      text="Month trend", 
+      text="This month's trend",
       font=Fonts.Body.sm(),
       text_color=Colors.Grayscale.neutral_500, 
       anchor="w"
@@ -82,7 +82,8 @@ class MonthStatsComponent(FragmentComponent):
 
     # Create the box
     box = FragmentComponent(master,
-      border_width=Sizes.Border.sm, border_color=Colors.Surface.border,
+      border_width=Sizes.Border.sm, 
+      border_color=Colors.Surface.border,
       corner_radius=Sizes.Radius.sm,
     )
     pad = (0, Sizes.Spacing.xs) if col == 0 else (Sizes.Spacing.xs, 0)
