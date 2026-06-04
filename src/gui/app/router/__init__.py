@@ -79,8 +79,8 @@ class Route:
     |
     | `path_segments`: remaining path segments yet to be matched
     | `views`: accumulated list of views to render, built up across recursive calls
-    | `from_root`: whether this call is the root of the recursion — used to wrap
-    |   the error with the full path, which child calls don't have access to
+    | `from_root`: whether this call is the root of the recursion. Used to wrap
+      the error with the full path, which child calls don't have access to
     """
 
     if views is None:

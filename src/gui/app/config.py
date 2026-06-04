@@ -14,5 +14,5 @@ class Config:
     ctk.set_default_color_theme("blue")
     ctk.set_window_scaling(1.0)
     ctk.set_widget_scaling(1.0)
-    app.geometry("854x480")
+    app.geometry("1280x720")
     app.title("MoodMinder")

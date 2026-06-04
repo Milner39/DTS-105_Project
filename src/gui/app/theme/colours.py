@@ -36,9 +36,26 @@ class _Semantic:
 
 
 
+class _Mood:
+  """Mood-score colour scale (1-5), drawn from the brand primary spectrum."""
+  score_1:  CTkColorT = _Brand.primary_100
+  score_2:  CTkColorT = _Brand.primary_300
+  score_3:  CTkColorT = _Brand.primary_500
+  score_4:  CTkColorT = _Brand.primary_700
+  score_5:  CTkColorT = _Brand.primary_900
+
+  @classmethod
+  def for_score(cls, score: int) -> CTkColorT:
+    """Return the colour for a 1-5 mood score."""
+    scale = (cls.score_1, cls.score_2, cls.score_3, cls.score_4, cls.score_5)
+    return scale[max(1, min(5, score)) - 1]
+
+
+
 class Colors:
   """Single source of truth for every colour used in the GUI."""
   Brand     = _Brand
   Grayscale = _Grayscale
   Surface   = _Surface
   Semantic  = _Semantic
+  Mood      = _Mood
