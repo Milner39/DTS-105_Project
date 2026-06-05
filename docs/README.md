@@ -6,7 +6,12 @@
 
 # How To Use
 
-- Run with `uv run -m src`.
+If you are not using UV (not recomended) replace `uv run` with `python`.
+
+Run with:
+```sh
+uv run -m src`
+```
 
 ## Seeding Test Data
 
